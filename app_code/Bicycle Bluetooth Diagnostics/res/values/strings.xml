@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Bicycle Bluetooth Diagnostics</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="error_bluetooth_not_supported">BLE Not Supporteds</string>
+    <string name="unknown_device">Unknown device</string>
+
+</resources>
