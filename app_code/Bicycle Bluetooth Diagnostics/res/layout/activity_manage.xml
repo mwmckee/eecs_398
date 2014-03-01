@@ -1,0 +1,14 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <Button
+        style="@style/main_menu_button"
+        android:text="@string/manage_accounts"/>
+    <Button
+        style="@style/main_menu_button"
+        android:text="@string/riding_history"/>
+    <Button
+        style="@style/main_menu_button"
+        android:text="@string/start_new_ride"/>
+</LinearLayout>
