@@ -30,11 +30,4 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>res/drawable-xhdpi/BBD Icon2.png</name>
-			<type>1</type>
-			<location>C:/Users/Casey/Pictures/BBD Icon2.png</location>
-		</link>
-	</linkedResources>
 </projectDescription>
