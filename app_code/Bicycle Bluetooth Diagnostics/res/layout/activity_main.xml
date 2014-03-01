@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <Button
+        android:id="@+id/manage_accounts_button"
         style="@style/main_menu_button"
         android:text="@string/manage_accounts"/>
     <Button
