@@ -1,14 +1,19 @@
 package com.bbdt.bluetoothbicyclediagnostics;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Toast;
 
-public class MainMenuButtonListener implements OnClickListener{	
+public class MainMenuButtonListener implements View.OnClickListener{	
+	
+	private MainActivity mainActivity;
+	public MainMenuButtonListener(MainActivity mainActivity){
+		this.mainActivity = mainActivity;
+	}
+	
 	public void onClick(View view) {
-		Toast.makeText(view.getContext(), "Hello!", Toast.LENGTH_SHORT).show();
-		Intent intent = new Intent(view.getContext(), ManageAccountsActivity.class);
-		view.getContext().startActivity(intent);
+		Log.e("NOT ERROR","Click!");
+		Intent intent = new Intent(mainActivity, ManageAccountsActivity.class);
+		mainActivity.startActivity(intent);
 	}	
 }
