@@ -1,5 +1,4 @@
-<resources>
-
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <!--
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
@@ -16,5 +15,15 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-
+    
+    <style name="main_menu_button">
+    	<item name="android:layout_width">	match_parent</item>    
+    	<item name="android:layout_height">	@dimen/main_menu_button_height</item>
+    	<item name="android:background">	@drawable/main_menu_background</item>  
+    	<item name="android:textSize">		@dimen/main_menu_button_text_size</item>
+    	<item name="android:layout_margin">	@dimen/main_menu_button_margin</item> 
+    </style>
+    
+    <style name="manage_accounts_menu_button" parent="main_menu_button">
+    </style>
 </resources>
