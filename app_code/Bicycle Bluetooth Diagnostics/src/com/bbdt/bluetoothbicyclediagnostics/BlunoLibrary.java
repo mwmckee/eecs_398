@@ -40,6 +40,7 @@ public abstract  class BlunoLibrary  extends Activity{
 	
 	public abstract void onConectionStateChange(connectionStateEnum theconnectionStateEnum);
 	public abstract void onSerialReceived(String theString);
+	
 	public void serialSend(String theString){
 		if (mConnectionState == connectionStateEnum.isConnected) {
 			mSCharacteristic.setValue(theString);
@@ -49,7 +50,11 @@ public abstract  class BlunoLibrary  extends Activity{
 	
 	private int mBaudrate=115200;	//set the default baud rate to 115200
 
-	byte[] mBaudrateBuffer={0x32,0x00,(byte) (mBaudrate & 0xFF),(byte) ((mBaudrate>>8) & 0xFF),(byte) ((mBaudrate>>16) & 0xFF),0x00};;
+	private byte[] mBaudrateBuffer={
+			0x32,
+			0x00,
+			(byte) (mBaudrate & 0xFF),
+			(byte) ((mBaudrate>>8) & 0xFF),(byte) ((mBaudrate>>16) & 0xFF),0x00};;
 	
 	
 	public void serialBegin(int baud){

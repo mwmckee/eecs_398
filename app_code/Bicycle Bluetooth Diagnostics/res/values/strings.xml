@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Bicycle Bluetooth Diagnostics</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    
+    <!-- BLUNO strings -->
     <string name="error_bluetooth_not_supported">BLE Not Supporteds</string>
     <string name="unknown_device">Unknown device</string>
-
+    
+    <!-- Main Menu -->
+    <string name="manage_accounts">Manage Accounts</string>
+	<string name="riding_history">Riding History</string>
+    <string name="start_new_ride">Start New Ride</string>
+    
+    <!-- Manage Accounts Menu -->
+    <string name="switch_account">Switch Account</string>
+	<string name="edit_account">Edit Account</string>
+    <string name="create_account">Create Account</string>
 </resources>
