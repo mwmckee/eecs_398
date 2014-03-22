@@ -18,4 +18,11 @@
     
     <string name="manage_accounts_activity_name">	@string/manage_accounts</string>
     <string name="riding_history_activity_name">	@string/riding_history</string>
+    
+    <string name="dialog_username">			Username</string>
+    <string name="dialog_age">				Age</string>
+    <string name="dialog_weight">			Weight</string>
+    <string name="dialog_wheel_diameter">	Wheel Diameter</string>
+    
+    <string name="send_message">			Send</string>
 </resources>
