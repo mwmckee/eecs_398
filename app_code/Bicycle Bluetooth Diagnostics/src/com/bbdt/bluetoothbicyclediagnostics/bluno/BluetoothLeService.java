@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.bbdt.bluetoothbicyclediagnostics;
+package com.bbdt.bluetoothbicyclediagnostics.bluno;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;

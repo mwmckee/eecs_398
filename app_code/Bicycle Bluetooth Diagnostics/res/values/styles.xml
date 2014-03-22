@@ -10,21 +10,13 @@
             backward-compatibility can go here.
         -->
     </style>
-
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>
-    
-    <style name="main_menu_button">
-    	<item name="android:layout_width">	match_parent</item>    
-    	<item name="android:layout_height">	@dimen/main_menu_button_height</item>
-    	<!-- <item name="android:background">	@drawable/main_menu_background</item>  -->
-    	<item name="android:textSize">		@dimen/main_menu_button_text_size</item>
-    	<item name="android:layout_margin">	@dimen/main_menu_button_margin</item> 
-    	<item name="android:onClick">logcat</item>
-    </style>
-    
-    <style name="manage_accounts_menu_button" parent="main_menu_button">
+  
+    <style name="button">
+    	<item name="android:layout_width">			@dimen/button_width</item>    
+    	<item name="android:layout_height">			@dimen/main_menu_button_height</item>
+    	<item name="android:layout_centerInParent">	true</item>
+    	<item name="android:background">			@drawable/main_menu_button_background</item>
+    	<item name="android:textSize">				@dimen/main_menu_button_text_size</item>
+    	<item name="android:layout_margin">			@dimen/main_menu_button_margin</item> 
     </style>
 </resources>

@@ -1,15 +1,20 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
     <Button
         android:id="@+id/manage_accounts_button"
-        style="@style/main_menu_button"
-        android:text="@string/manage_accounts"/>
+        style="@style/button"
+        android:layout_above="@+id/riding_history_button"
+        android:text="@string/manage_accounts"
+        android:onClick="goToManageAccounts"/>
     <Button
-        style="@style/main_menu_button"
-        android:text="@string/riding_history"/>
+        android:id="@id/riding_history_button"
+        style="@style/button"
+        android:text="@string/riding_history"
+        android:onClick="goToRidingHistory"/>
     <Button
-        style="@style/main_menu_button"
-        android:text="@string/start_new_ride"/>
-</LinearLayout>
+        style="@style/button"
+        android:layout_below="@id/riding_history_button"
+        android:text="@string/start_new_ride"
+        android:onClick="goToNewRide"/>
+</RelativeLayout>

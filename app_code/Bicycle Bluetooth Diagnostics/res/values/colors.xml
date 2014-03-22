@@ -8,7 +8,14 @@
 	<color name="gold">#E49400</color>
 	<color name="red_orange">#BD5200</color>
 	
-	<color name="background">@color/white</color>
+	<color name="action_bar_background">@color/tan</color>
+	<color name="action_bar_text">@color/black</color>
+	
+	<color name="app_background">@color/white</color>
+	
+	<color name="button">@color/gold</color>
+	<color name="button_pressed">@color/red_orange</color>
+	
 	<color name="button_text">@color/black</color>
 	<color name="label_text">@color/black</color>
 </resources>

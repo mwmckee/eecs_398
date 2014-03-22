@@ -1,4 +1,7 @@
-package com.bbdt.bluetoothbicyclediagnostics;
+/**
+ * 	BLUNO Code
+ */
+package com.bbdt.bluetoothbicyclediagnostics.bluno;
 
 @SuppressWarnings("unchecked")
 public class RingBuffer<T> {
@@ -65,6 +68,4 @@ public class RingBuffer<T> {
         }
         return buffer[indexOut];
     }
-
-
 }
