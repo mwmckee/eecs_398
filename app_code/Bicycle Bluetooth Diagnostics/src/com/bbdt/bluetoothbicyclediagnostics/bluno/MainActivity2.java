@@ -11,11 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity2  extends BlunoLibrary {
+	/*
 	public MainActivity2(Context theContext) {
 		super(theContext);
 		// TODO Auto-generated constructor stub
 	}
-
+*/
 	private Button buttonScan;
 	private Button buttonSerialSend;
 	private EditText serialSendText;
@@ -25,7 +26,7 @@ public class MainActivity2  extends BlunoLibrary {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main2);
-        onCreateProcess();														//onCreate Process by BlunoLibrary
+        onCreateProcess(this);														//onCreate Process by BlunoLibrary
         
         serialBegin(115200);													//set the Uart Baudrate on BLE chip to 115200
 		

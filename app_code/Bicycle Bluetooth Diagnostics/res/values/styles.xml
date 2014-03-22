@@ -11,6 +11,12 @@
         -->
     </style>
   
+    <style name="root">
+        <item name="android:layout_width">		match_parent</item>    
+    	<item name="android:layout_height">		match_parent</item>
+    	<item name="android:background">		@color/root_background</item>
+    </style>
+    
     <style name="button">
     	<item name="android:layout_width">			@dimen/button_width</item>    
     	<item name="android:layout_height">			@dimen/main_menu_button_height</item>
