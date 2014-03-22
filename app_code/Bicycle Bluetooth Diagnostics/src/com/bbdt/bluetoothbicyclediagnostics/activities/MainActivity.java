@@ -48,6 +48,7 @@ public class MainActivity extends Activity {
 	 */
 	public void goToNewRide(View view){
 		Intent intent = new Intent(view.getContext(), NewRideActivity.class);
+		
 		view.getContext().startActivity(intent);
 	}
 }

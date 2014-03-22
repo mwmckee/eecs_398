@@ -13,7 +13,6 @@ public final class R {
     public static final class color {
         public static final int action_bar_background=0x7f040007;
         public static final int action_bar_text=0x7f040008;
-        public static final int app_background=0x7f040009;
         public static final int banana=0x7f040004;
         public static final int black=0x7f040002;
         public static final int button=0x7f04000a;
@@ -23,6 +22,7 @@ public final class R {
         public static final int gray=0x7f040001;
         public static final int label_text=0x7f04000d;
         public static final int red_orange=0x7f040006;
+        public static final int root_background=0x7f040009;
         public static final int tan=0x7f040003;
         public static final int white=0x7f040000;
     }
@@ -125,11 +125,12 @@ public final class R {
         public static final int AppBaseTheme=0x7f070000;
         /**  Action Bar Style 
          */
-        public static final int action_bar=0x7f070003;
+        public static final int action_bar=0x7f070004;
         /**  Action Bar Text Style 
          */
-        public static final int action_bar_title_text=0x7f070004;
-        public static final int button=0x7f070001;
-        public static final int dialog=0x7f070002;
+        public static final int action_bar_title_text=0x7f070005;
+        public static final int button=0x7f070002;
+        public static final int dialog=0x7f070003;
+        public static final int root=0x7f070001;
     }
 }
