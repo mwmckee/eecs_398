@@ -25,6 +25,7 @@
     	<item name="android:textSize">				@dimen/main_menu_button_text_size</item>
     	<item name="android:layout_margin">			@dimen/main_menu_button_margin</item> 
     </style>
+
     
     <style name="dialog">
 		<item name="android:layout_width">			@dimen/dialog_width</item>    
