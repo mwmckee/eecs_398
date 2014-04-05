@@ -1,15 +1,17 @@
 package com.bbdt.bluetoothbicyclediagnostics.activities;
 
-import com.bbdt.bluetoothbicyclediagnostics.R;
-
-import android.os.Bundle;
-import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
 
-public class MainActivity extends Activity {
+import com.bbdt.bluetoothbicyclediagnostics.R;
+
+public class MainActivity extends FragmentActivity implements NoticeDialogFragment.NoticeDialogListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,5 +52,24 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(view.getContext(), NewRideActivity.class);
 		
 		view.getContext().startActivity(intent);
+	}
+
+	public void ShowNoticeDialog() {
+		DialogFragment dialog = new NoticeDialogFragment();
+		//FragmentManager manager = getSupportFragmentManager();	//It should be this.
+		FragmentManager manager = getFragmentManager();			//Not this.
+		dialog.show(manager, "NoticeDialogFragment");
+	}
+	
+	@Override
+	public void onDialogPositiveClick(DialogFragment dialog) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDialogNegativeClick(DialogFragment dialog) {
+		// TODO Auto-generated method stub
+		
 	}
 }
