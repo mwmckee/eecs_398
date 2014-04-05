@@ -32,7 +32,6 @@
     <!-- Save data to file associated with user -->
     <Button
         style="@style/button"
-        android:layout_above="@+id/send_message"
         android:text="@string/send_message"
         
         />

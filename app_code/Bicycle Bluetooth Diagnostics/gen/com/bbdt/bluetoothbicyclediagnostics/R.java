@@ -53,22 +53,21 @@ public final class R {
         public static final int main_menu_button_background=0x7f020001;
     }
     public static final class id {
-        public static final int buttonScan=0x7f090008;
-        public static final int buttonSerialSend=0x7f09000b;
-        public static final int device_address=0x7f09000f;
-        public static final int device_name=0x7f09000e;
+        public static final int buttonScan=0x7f090007;
+        public static final int buttonSerialSend=0x7f09000a;
+        public static final int device_address=0x7f09000e;
+        public static final int device_name=0x7f09000d;
         public static final int dialog_age=0x7f090002;
         public static final int dialog_username=0x7f090000;
         public static final int dialog_weight=0x7f090001;
         public static final int dialog_wheel=0x7f090003;
-        public static final int editText2=0x7f09000a;
-        public static final int manage_accounts_button=0x7f090005;
-        public static final int riding_history_button=0x7f090006;
-        public static final int send_message=0x7f090004;
-        public static final int serialReveicedText=0x7f090009;
-        public static final int serialSendText=0x7f09000c;
-        public static final int switch_account=0x7f09000d;
-        public static final int textView1=0x7f090007;
+        public static final int editText2=0x7f090009;
+        public static final int manage_accounts_button=0x7f090004;
+        public static final int riding_history_button=0x7f090005;
+        public static final int serialReveicedText=0x7f090008;
+        public static final int serialSendText=0x7f09000b;
+        public static final int switch_account=0x7f09000c;
+        public static final int textView1=0x7f090006;
     }
     public static final class layout {
         public static final int activity_create_account=0x7f030000;
