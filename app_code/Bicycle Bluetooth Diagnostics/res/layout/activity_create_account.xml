@@ -31,9 +31,10 @@
         />
     <!-- Save data to file associated with user -->
     <Button
+        android:id="@+id/button_send"
         style="@style/button"
-        android:text="@string/send_message"
-        
+        android:text="@string/save"
+        android:onClick="sendMessage"
         />
     
     
