@@ -1,7 +1,11 @@
 package com.bbdt.bluetoothbicyclediagnostics.activities;
 
+
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import com.bbdt.bluetoothbicyclediagnostics.R;
+import android.os.Bundle;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;

@@ -1,10 +1,3 @@
-/**
- * 	@author BLUNO
- * 	
- * Comments added by Rachid
- * 	
- */
-
 package com.bbdt.bluetoothbicyclediagnostics.bluno;
 
 import java.util.ArrayList;
@@ -37,43 +30,36 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public abstract  class BlunoLibrary extends Activity{
-	/** Reference to the Activity's context */
-	private Context context;
+public abstract  class BlunoLibrary  extends Activity{
 
-	/** Methods that need to be implemented by the sublcass */
+	private Context mainContext = this;
+
+	
+//	public BlunoLibrary(Context theContext) {
+//		
+//		mainContext=theContext;
+//	}
+	
 	public abstract void onConectionStateChange(connectionStateEnum theconnectionStateEnum);
 	public abstract void onSerialReceived(String theString);
-	
-	/**
-	 * Send a message string on the connection
-	 * 
-	 * @param message
-	 */
-	public void serialSend(String message){
+	public void serialSend(String theString){
 		if (mConnectionState == connectionStateEnum.isConnected) {
-			mSCharacteristic.setValue(message);
+			mSCharacteristic.setValue(theString);
 			mBluetoothLeService.writeCharacteristic(mSCharacteristic);
 		}
 	}
 	
-	/** set the default baud rate to 115200 */
-	private int mBaudrate = 115200;	
+	private int mBaudrate=115200;	//set the default baud rate to 115200
 
-	/** Format for serial communications */
-	private byte[] mBaudrateBuffer = {
-			0x32,
-			0x00,
-			(byte) (mBaudrate & 0xFF),
-			(byte) ((mBaudrate>>8) & 0xFF),(byte) ((mBaudrate>>16) & 0xFF),0x00
-	};
+	byte[] mBaudrateBuffer={0x32,0x00,(byte) (mBaudrate & 0xFF),(byte) ((mBaudrate>>8) & 0xFF),(byte) ((mBaudrate>>16) & 0xFF),0x00};;
 	
-	/** Instantiate the baudrate in the format */
+	
 	public void serialBegin(int baud){
 		mBaudrate=baud;
 		mBaudrateBuffer[2]=(byte) (mBaudrate & 0xFF);
 		mBaudrateBuffer[3]=(byte) ((mBaudrate>>8) & 0xFF);
 		mBaudrateBuffer[4]=(byte) ((mBaudrate>>16) & 0xFF);
+
 	}
 	
 	
@@ -81,15 +67,14 @@ public abstract  class BlunoLibrary extends Activity{
 		TextView deviceName;
 		TextView deviceAddress;
 	}
-    
-	private static BluetoothGattCharacteristic mSCharacteristic, mModelNumberCharacteristic, mSerialPortCharacteristic, mCommandCharacteristic;
-    protected BluetoothLeService mBluetoothLeService;
-    
-    private ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics = new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
-	private LeDeviceListAdapter mLeDeviceListAdapter= null;
+    private static BluetoothGattCharacteristic mSCharacteristic, mModelNumberCharacteristic, mSerialPortCharacteristic, mCommandCharacteristic;
+    BluetoothLeService mBluetoothLeService;
+    private ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics =
+            new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
+	private LeDeviceListAdapter mLeDeviceListAdapter=null;
 	private BluetoothAdapter mBluetoothAdapter;
-	private boolean mScanning = false;
-	protected AlertDialog mScanDeviceDialog;
+	private boolean mScanning =false;
+	AlertDialog mScanDeviceDialog;
     private String mDeviceName;
     private String mDeviceAddress;
 	public enum connectionStateEnum{isNull, isScanning, isToScan, isConnecting , isConnected, isDisconnecting};
@@ -102,53 +87,46 @@ public abstract  class BlunoLibrary extends Activity{
 
     private final static String TAG = BlunoLibrary.class.getSimpleName();
 
-    /** Runnable for connecting */
-    private Runnable mConnectingOverTimeRunnable = new Runnable(){
+    private Runnable mConnectingOverTimeRunnable=new Runnable(){
+
 		@Override
 		public void run() {
-        	if(mConnectionState == connectionStateEnum.isConnecting){
-        		mConnectionState = connectionStateEnum.isToScan;
-        	}
+        	if(mConnectionState==connectionStateEnum.isConnecting)
+			mConnectionState=connectionStateEnum.isToScan;
 			onConectionStateChange(mConnectionState);
 			mBluetoothLeService.close();
-		}
-	};
+		}};
 		
-	/** Runnable for disconnecting */
-    private Runnable mDisonnectingOverTimeRunnable = new Runnable(){
-		@Override 
+    private Runnable mDisonnectingOverTimeRunnable=new Runnable(){
+
+		@Override
 		public void run() {
-        	if(mConnectionState==connectionStateEnum.isDisconnecting){
-        		mConnectionState=connectionStateEnum.isToScan;
-        	}
+        	if(mConnectionState==connectionStateEnum.isDisconnecting)
+			mConnectionState=connectionStateEnum.isToScan;
 			onConectionStateChange(mConnectionState);
 			mBluetoothLeService.close();
-		}
-	};
+		}};
     
-	/** Unique identifiers */
-	public static final String SerialPortUUID 			= "0000dfb1-0000-1000-8000-00805f9b34fb";
-	public static final String CommandUUID 				= "0000dfb2-0000-1000-8000-00805f9b34fb";
-    public static final String ModelNumberStringUUID 	= "00002a24-0000-1000-8000-00805f9b34fb";
+	public static final String SerialPortUUID="0000dfb1-0000-1000-8000-00805f9b34fb";
+	public static final String CommandUUID="0000dfb2-0000-1000-8000-00805f9b34fb";
+    public static final String ModelNumberStringUUID="00002a24-0000-1000-8000-00805f9b34fb";
 	
-    /** Call this to create the connection when the activity is created */
-    public void onCreateProcess(Context context){
-    	this.context = context;
-    	
-    	if(!initiate()){
-			Toast.makeText(context, R.string.error_bluetooth_not_supported,
+    public void onCreateProcess()
+    {
+    	if(!initiate())
+		{
+			Toast.makeText(mainContext, R.string.error_bluetooth_not_supported,
 					Toast.LENGTH_SHORT).show();
-			((Activity) context).finish();
+			((Activity) mainContext).finish();
 		}
 		
-        Intent gattServiceIntent = new Intent(context, BluetoothLeService.class);
-        context.bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-        
+        Intent gattServiceIntent = new Intent(mainContext, BluetoothLeService.class);
+        mainContext.bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
         
 		// Initializes list view adapter.
 		mLeDeviceListAdapter = new LeDeviceListAdapter();
 		// Initializes and show the scan Device Dialog
-		mScanDeviceDialog = new AlertDialog.Builder(context)
+		mScanDeviceDialog = new AlertDialog.Builder(mainContext)
 		.setTitle("BLE Device Scan...").setAdapter(mLeDeviceListAdapter, new DialogInterface.OnClickListener() {
 			
 			@Override
@@ -213,12 +191,12 @@ public abstract  class BlunoLibrary extends Activity{
 			if (!mBluetoothAdapter.isEnabled()) {
 				Intent enableBtIntent = new Intent(
 						BluetoothAdapter.ACTION_REQUEST_ENABLE);
-				((Activity) context).startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+				((Activity) mainContext).startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 			}
 		}
 		
 		
-	    context.registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+	    mainContext.registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 
 	}
     
@@ -226,7 +204,7 @@ public abstract  class BlunoLibrary extends Activity{
     public void onPauseProcess() {
     	System.out.println("BLUNOActivity onPause");
 		scanLeDevice(false);
-		context.unregisterReceiver(mGattUpdateReceiver);
+		mainContext.unregisterReceiver(mGattUpdateReceiver);
 		mLeDeviceListAdapter.clear();
     	mConnectionState=connectionStateEnum.isToScan;
     	onConectionStateChange(mConnectionState);
@@ -256,7 +234,7 @@ public abstract  class BlunoLibrary extends Activity{
 	}
 
 	public void onDestroyProcess() {
-        context.unbindService(mServiceConnection);
+        mainContext.unbindService(mServiceConnection);
         mBluetoothLeService = null;
 	}
 	
@@ -264,7 +242,7 @@ public abstract  class BlunoLibrary extends Activity{
 		// User chose not to enable Bluetooth.
 		if (requestCode == REQUEST_ENABLE_BT
 				&& resultCode == Activity.RESULT_CANCELED) {
-			((Activity) context).finish();
+			((Activity) mainContext).finish();
 			return;
 		}
 	}
@@ -274,7 +252,7 @@ public abstract  class BlunoLibrary extends Activity{
 		// Use this check to determine whether BLE is supported on the device.
 		// Then you can
 		// selectively disable BLE-related features.
-		if (!context.getPackageManager().hasSystemFeature(
+		if (!mainContext.getPackageManager().hasSystemFeature(
 				PackageManager.FEATURE_BLUETOOTH_LE)) {
 			return false;
 		}
@@ -282,7 +260,7 @@ public abstract  class BlunoLibrary extends Activity{
 		// Initializes a Bluetooth adapter. For API level 18 and above, get a
 		// reference to
 		// BluetoothAdapter through BluetoothManager.
-		final BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
+		final BluetoothManager bluetoothManager = (BluetoothManager) mainContext.getSystemService(Context.BLUETOOTH_SERVICE);
 		mBluetoothAdapter = bluetoothManager.getAdapter();
 	
 		// Checks if Bluetooth is supported on the device.
@@ -335,7 +313,7 @@ public abstract  class BlunoLibrary extends Activity{
 						
 					}
             		else {
-            			Toast.makeText(context, "Please select DFRobot devices",Toast.LENGTH_SHORT).show();
+            			Toast.makeText(mainContext, "Please select DFRobot devices",Toast.LENGTH_SHORT).show();
                         mConnectionState = connectionStateEnum.isToScan;
                         onConectionStateChange(mConnectionState);
 					}
@@ -430,9 +408,10 @@ public abstract  class BlunoLibrary extends Activity{
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             System.out.println("mServiceConnection onServiceConnected");
         	mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+        	Log.e("SERVICE", "" +mBluetoothLeService);
             if (!mBluetoothLeService.initialize()) {
                 Log.e(TAG, "Unable to initialize Bluetooth");
-                ((Activity) context).finish();
+                ((Activity) mainContext).finish();
             }
         }
 
@@ -449,7 +428,7 @@ public abstract  class BlunoLibrary extends Activity{
 		@Override
 		public void onLeScan(final BluetoothDevice device, int rssi,
 				byte[] scanRecord) {
-			((Activity) context).runOnUiThread(new Runnable() {
+			((Activity) mainContext).runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
 					System.out.println("mLeScanCallback onLeScan run ");
@@ -501,7 +480,7 @@ public abstract  class BlunoLibrary extends Activity{
         }
         
         if (mModelNumberCharacteristic==null || mSerialPortCharacteristic==null || mCommandCharacteristic==null) {
-			Toast.makeText(context, "Please select DFRobot devices",Toast.LENGTH_SHORT).show();
+			Toast.makeText(mainContext, "Please select DFRobot devices",Toast.LENGTH_SHORT).show();
             mConnectionState = connectionStateEnum.isToScan;
             onConectionStateChange(mConnectionState);
 		}
@@ -529,7 +508,7 @@ public abstract  class BlunoLibrary extends Activity{
 		public LeDeviceListAdapter() {
 			super();
 			mLeDevices = new ArrayList<BluetoothDevice>();
-			mInflator =  ((Activity) context).getLayoutInflater();
+			mInflator =  ((Activity) mainContext).getLayoutInflater();
 		}
 
 		public void addDevice(BluetoothDevice device) {
@@ -565,7 +544,6 @@ public abstract  class BlunoLibrary extends Activity{
 		public View getView(int i, View view, ViewGroup viewGroup) {
 			ViewHolder viewHolder;
 			// General ListView optimization code.
-		
 			if (view == null) {
 				view = mInflator.inflate(R.layout.listitem_device, null);
 				viewHolder = new ViewHolder();

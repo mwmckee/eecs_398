@@ -4,6 +4,7 @@
     
     <!-- BLUNO strings -->
     <string name="error_bluetooth_not_supported">BLE Not Supporteds</string>
+    <string name="ble_not_supported">BLE Not Supporteds</string>
     <string name="unknown_device">Unknown device</string>
     
     <!-- Main Menu -->
@@ -23,6 +24,12 @@
     <string name="dialog_age">		Age</string>
     <string name="dialog_weight">	Weight</string>
     <string name="dialog_wheel">	Wheel Diameter</string>
-    
+
     <string name="save">		Save</string>
+
+    <string name="send_message">			Send</string>
+    
+    <string name="connected">Connected</string>
+    <string name="Disconnected">Disconnected</string>
+
 </resources>
