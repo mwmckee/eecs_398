@@ -2,14 +2,18 @@
     style="@style/root">
     <Button
         style="@style/button"
-        android:layout_above="@+id/switch_account"
-        android:text="@string/switch_account"/>
+        android:layout_above="@+id/edit_account"
+        android:id="@+id/switch_account"
+        android:text="@string/switch_account"
+    	android:onClick="switchAccountOnClick"/>
     <Button
-        android:id="@id/switch_account"
+        android:id="@id/edit_account"
         style="@style/button"
-        android:text="@string/edit_account"/>
+        android:text="@string/edit_account"
+    	android:onClick="editAccountOnClick"/>
     <Button
         style="@style/button"
-        android:layout_below="@id/switch_account"
-        android:text="@string/create_account"/>
+        android:layout_below="@id/edit_account"
+        android:text="@string/create_account"
+        android:onClick="createAccountOnClick"/>
 </RelativeLayout>
