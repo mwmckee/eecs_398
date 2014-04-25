@@ -4,34 +4,21 @@ package com.bbdt.bluetoothbicyclediagnostics.activities;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
 
 import com.bbdt.bluetoothbicyclediagnostics.R;
 
-public class MainActivity extends FragmentActivity implements NoticeDialogFragment.NoticeDialogListener {
-//	private Button button;
-//	final Context context = this;
-//	
-//	@Override
-//	protected void onCreate(Bundle savedInstanceState) {
-//		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_main);
-//		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//		
-//		button = (Button) findViewByID(R.id.buttonShowCustomDialog);
-//		
-//		button.setOnClickListener(new OnClickListener() {
-//			public void onClick(View arg0) {
-//				final Dialog dialog = new Dialog(context);
-//				dialog.setContentView(R.layout.activity_create_account);
-//				dialog.setTitle(R.string.create_account);
-//			}
-//			
-//		});
-//		
-//	}
+public class MainActivity extends FragmentActivity implements CreateAccountDialog.NoticeDialogListener {
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);		
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,7 +56,7 @@ public class MainActivity extends FragmentActivity implements NoticeDialogFragme
 	}
 
 	public void ShowNoticeDialog() {
-		DialogFragment dialog = new NoticeDialogFragment();
+		DialogFragment dialog = new CreateAccountDialog();
 		//FragmentManager manager = getSupportFragmentManager();	//It should be this.
 		FragmentManager manager = getFragmentManager();			//Not this.
 		dialog.show(manager, "NoticeDialogFragment");

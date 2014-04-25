@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/red"> 
     
     <!-- Need Name, Weight, Age, Wheel Diameter
@@ -10,14 +11,12 @@
     <EditText
         style="@style/dialog"
         android:id="@+id/dialog_username"
-        android:hint="@string/dialog_username"
         />
     <EditText
         style="@style/dialog"
         android:id="@+id/dialog_weight"
         android:inputType="textPersonName"
-        android:hint="@string/dialog_weight"
-        />
+        android:hint="@string/dialog_weight"/>
     <EditText
         style="@style/dialog"
         android:id="@+id/dialog_age"
@@ -28,15 +27,13 @@
         style="@style/dialog"
         android:id="@+id/dialog_wheel"
         android:inputType="number"
-        android:hint="@string/dialog_wheel"
-        />
+        android:hint="@string/dialog_wheel"/>
     <!-- Save data to file associated with user -->
     <Button
         android:id="@+id/button_send"
         style="@style/button"
         android:text="@string/save"
-        android:onClick="sendMessage"
-        />
+        android:onClick="saveAccount"/>
     
     
 <!--     <EditText android:id="@+id/edit_message"

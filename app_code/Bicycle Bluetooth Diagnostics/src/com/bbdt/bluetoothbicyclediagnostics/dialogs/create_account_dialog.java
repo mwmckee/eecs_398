@@ -15,7 +15,7 @@ public class create_account_dialog extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		
-		builder.setView(inflater.inflate(R.layout.activity_create_account, null));
+		builder.setView(inflater.inflate(R.layout.dialog_create_account, null));
 //			.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
 //				@Override
 //				public void onClick(DialogInterface dialog, int id) {
