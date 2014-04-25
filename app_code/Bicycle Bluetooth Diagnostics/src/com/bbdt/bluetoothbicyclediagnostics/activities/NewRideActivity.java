@@ -27,7 +27,7 @@ public class NewRideActivity extends BlunoLibrary{
 	
 	private final long START_TIME;
 	
-	private SensorType sensorType = SensorType.end;
+	private SensorType sensorType = SensorType.rotation;
 	
 	private double distanceIncrement = 20;
 	
@@ -58,12 +58,20 @@ public class NewRideActivity extends BlunoLibrary{
 		return ((value * 4.9) - 200) / 44.1;
 	}
 	
+	private enum Step{
+		getTag,
+		getData,
+		getData2,
+		getEndTag
+	}
+	
+	private Step step = Step.getTag;
+	
 	private enum SensorType{
 		rotation,
 		heart,
 		pressure,
-		accelerometer,
-		end
+		accelerometer
 	}
 	
 	public NewRideActivity(){
@@ -122,83 +130,121 @@ public class NewRideActivity extends BlunoLibrary{
 		// TODO Auto-generated method stub
 	}
 	
-	@Override
-	public void onSerialReceived(String data) {
+	private StringBuilder dataBuffer = new StringBuilder("");
+	public void onSerialReceived(String data){
+		dataBuffer.append(data);
+		
+		StringBuilder nextData = new StringBuilder("");
+		for(int i = 0; i < dataBuffer.length(); i++){
+		 	if(dataBuffer.charAt(i) == '\r'){
+		 		processData(nextData.toString());
+		 		nextData = new StringBuilder("");
+		 	}
+		 	else if(dataBuffer.charAt(i) == '\n'){
+		 		// do nothing to skip new line
+		 	}
+		 	else{
+		 		nextData.append(dataBuffer.charAt(i));
+		 	}
+		}		
+		dataBuffer = new StringBuilder(nextData.toString());
+	}
+	
+	public void processData(String data) {
 		long time = START_TIME - System.currentTimeMillis();
-		Log.e("Data!", data);
+		Log.e("Data!", new String(data));
 		
 		if(data == null || data.length() == 0){
 			return;
 		}
 		
-		if(sensorType == SensorType.end){
-			if(data.equals("TAG_ROTATION")){
-				sensorType = SensorType.rotation;			
-			}
-			else if(data.equals("TAG_HEART")){
-				sensorType = SensorType.heart;
-			}
-			else if(data.equals("TAG_PRESSURE")){
-				sensorType = SensorType.pressure;
-			}
-			else if(data.equals("TAG_ACCELEROMETER")){
-				sensorType = SensorType.accelerometer;
-			}
-			else{
-				Log.e("Data Error: ", "Expected tag, but recieved this \"" + data +"\"");
-			}
-		}
-		else if(data.charAt(data.length() - 1) == TAG_SUFFIX){			
-			String endTag = (new StringBuilder(data)).deleteCharAt(data.length() - 1).toString();
-			if((endTag.equals("TAG_ROTATION") && sensorType == SensorType.rotation)
-					|| (endTag.equals("TAG_HEART") && sensorType == SensorType.heart)
-					|| (endTag.equals("TAG_PRESSURE") && sensorType == SensorType.pressure)
-					|| (endTag.equals("TAG_ACCELEROMETER") && sensorType == SensorType.accelerometer)){
-				sensorType = SensorType.end;
-			}
-			else{
-				Log.e("Data Error: ", "Received wrong end tag. Expected \"" + sensorType + "\" but received: \"" + data + "\"");
-			}
-		}
-		else{			
-			try{
-				int intData = Integer.parseInt(data);
-				switch(sensorType){
-				case rotation:
-					if(intData == 0){
-						ArrayList<Long> times = rotationData.times;
-						ArrayList<Double> distances = rotationData.distances;
-						ArrayList<Double> rpmData = rotationData.rpmData;
-						ArrayList<Double> speeds = rotationData.speeds;
-						
-						times.add(time);
-						distances.add(distances.get(distances.size() - 1) + distanceIncrement);
-						rpmData.add(1.0/millisToMinutes(time - times.get(times.size() - 1)));
-						double distance1 = distances.get(distances.size() - 1);
-						double distance2 = distances.get(distances.size() - 2);
-						long time1 = times.get(times.size() - 1);
-						long time2 = times.get(times.size() - 2);
-						speeds.add((distance1 - distance2)/((double)(time1 - time2)));
-					}
-					
-					break;
-				case heart:
-					
-					break;
-				case pressure:
-					pressureData.times.add(time);
-					pressureData.values.add(calculatePressure(intData));
-					break;
-				case accelerometer:
-					
-					break;
-				case end:
-					Log.e("Data Error: ", "Data received without previous tag.");
-					break;
+		switch(step){
+			case getTag:
+				step = Step.getData;
+
+				if(data.equals(TAG_ROTATION)){
+					sensorType = SensorType.rotation;			
 				}
-			}catch(NumberFormatException e){
-				Log.e("Parse Error", "");
-			}
+				else if(data.equals(TAG_HEART)){
+					sensorType = SensorType.heart;
+				}
+				else if(data.equals(TAG_PRESSURE)){
+					sensorType = SensorType.pressure;
+				}
+				else if(data.equals(TAG_ACCELEROMETER)){
+					sensorType = SensorType.accelerometer;
+				}
+				else{
+					step = Step.getTag;
+					Log.e("Data Error: ", "Expected tag, but recieved this \"" + new String(data) +"\"");
+				}
+				break;
+			case getData:
+				step = Step.getEndTag;
+				try{
+					int intData = Integer.parseInt(data);
+					switch(sensorType){
+					case rotation:
+						if(intData == 0){
+							ArrayList<Long> times = rotationData.times;
+							ArrayList<Double> distances = rotationData.distances;
+							ArrayList<Double> rpmData = rotationData.rpmData;
+							ArrayList<Double> speeds = rotationData.speeds;
+							
+							times.add(time);
+							distances.add(distances.get(distances.size() - 1) + distanceIncrement);
+							rpmData.add(1.0/millisToMinutes(time - times.get(times.size() - 1)));
+							double distance1 = distances.get(distances.size() - 1);
+							double distance2 = distances.get(distances.size() - 2);
+							long time1 = times.get(times.size() - 1);
+							long time2 = times.get(times.size() - 2);
+							speeds.add((distance1 - distance2)/((double)(time1 - time2)));
+						}
+						break;
+					case heart:
+						
+						break;
+					case pressure:
+						pressureData.times.add(time);
+						pressureData.values.add(calculatePressure(intData));
+						break;
+					case accelerometer:
+						step = Step.getData2;
+						break;
+					}
+				}catch(NumberFormatException e){
+					step = Step.getData;
+					Log.e("Parse Error", "Number Format Exception: did not get good data");
+				}
+				break;
+			case getData2:
+				step = Step.getEndTag;
+				try{
+					
+				}catch(NumberFormatException e){
+					step = Step.getData2;
+					Log.e("Parse Error", "Number Format Exception: did not get good data");
+				}
+				break;
+			case getEndTag:
+				if(data.charAt(data.length() - 1) == TAG_SUFFIX){			
+					String endTag = (new StringBuilder(data)).deleteCharAt(data.length() - 1).toString();
+					if((endTag.equals(TAG_ROTATION) && sensorType == SensorType.rotation)
+							|| (endTag.equals(TAG_HEART) && sensorType == SensorType.heart)
+							|| (endTag.equals(TAG_PRESSURE) && sensorType == SensorType.pressure)
+							|| (endTag.equals(TAG_ACCELEROMETER) && sensorType == SensorType.accelerometer)){
+						step = Step.getTag;
+					}
+					else{
+						step = Step.getEndTag;
+						Log.e("Data Error: ", "Received wrong end tag. Expected \"" + sensorType + "\" but received: \"" + new String(data) + "\"");
+					}
+				}
+				else{
+					step = Step.getEndTag;
+					Log.e("Data Error: ", "Received wrong end tag. Expected \"" + sensorType + "\" but received: \"" + new String(data) + "\"");
+				}
+				break;
 		}
 	}
 	
