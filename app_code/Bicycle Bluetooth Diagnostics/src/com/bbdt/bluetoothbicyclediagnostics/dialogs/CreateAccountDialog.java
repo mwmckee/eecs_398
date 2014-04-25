@@ -1,11 +1,16 @@
-package com.bbdt.bluetoothbicyclediagnostics.activities;
+package com.bbdt.bluetoothbicyclediagnostics.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.bbdt.bluetoothbicyclediagnostics.R;
 
@@ -31,7 +36,6 @@ public class CreateAccountDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-		
 		builder.setView(inflater.inflate(R.layout.dialog_create_account, null));
 		//builder.setMessage(R.string.create_account);
 		/*
@@ -48,6 +52,7 @@ public class CreateAccountDialog extends DialogFragment {
 		*/
 		return builder.create();
 	}
+	
 	
 	private class OnSaveListener implements DialogInterface.OnClickListener{
 		@Override

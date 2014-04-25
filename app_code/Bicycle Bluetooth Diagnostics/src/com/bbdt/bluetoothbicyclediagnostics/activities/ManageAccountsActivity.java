@@ -1,8 +1,10 @@
 package com.bbdt.bluetoothbicyclediagnostics.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -13,6 +15,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.bbdt.bluetoothbicyclediagnostics.R;
+import com.bbdt.bluetoothbicyclediagnostics.dialogs.CreateAccountDialog;
+import com.bbdt.bluetoothbicyclediagnostics.serializable.Account;
+import com.bbdt.bluetoothbicyclediagnostics.serializable.FileHandler;
 
 public class ManageAccountsActivity extends Activity {
 	private CreateAccountDialog dialog = new CreateAccountDialog();
@@ -22,26 +27,26 @@ public class ManageAccountsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_manage_accounts);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
+	}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent data){
+		Log.e("DEBUG", "Started for result?" + requestCode);
 	}
 	
 	public void saveAccount(View view) {
-		Log.e("DEBUG", "Save Account");
+		EditText username = ((EditText)dialog.getDialog().findViewById(R.id.dialog_username));
+		EditText weight = ((EditText)dialog.getDialog().findViewById(R.id.dialog_weight));
+		EditText age = ((EditText)dialog.getDialog().findViewById(R.id.dialog_age));
+		EditText wheelDiameter = ((EditText)dialog.getDialog().findViewById(R.id.dialog_wheel));
 		
-		LayoutInflater inflater = this.getLayoutInflater();//dialog.getDialog().getLayoutInflater();
-		LinearLayout root = (LinearLayout)inflater.inflate(R.layout.dialog_create_account, null);
-		Log.e("DEBUG", "" + root);
-		EditText username = (EditText) root.findViewById(R.id.dialog_username);
-		EditText weight = (EditText) root.findViewById(R.id.dialog_weight);
-		EditText age = (EditText) root.findViewById(R.id.dialog_age);
-		EditText wheel = (EditText) root.findViewById(R.id.dialog_wheel);
-		//LinearLayout ll = (LinearLayout)inflater.inflate(R.id.root, null);
-		//EditText age = (EditText)inflater.inflate(R.id.dialog_age, ll);
-		Log.e("DEBUG", "STUFF" + username.getText().toString() + "ASFASFN");
-		Log.e("DEBUG", "STUFF" + weight.getText().toString() + "ASFASFN");
-		Log.e("DEBUG", "STUFF" + age.getText().toString() + "ASFASFN");
-		Log.e("DEBUG", "STUFF" + wheel.getText().toString() + "ASFASFN");
+		Account account = new Account(
+				username.getText().toString(), 
+				Double.parseDouble(weight.getText().toString()),
+				Double.parseDouble(age.getText().toString()),
+				Double.parseDouble(wheelDiameter.getText().toString()));
 		
-		Log.e("DEBUG", "END");
+		FileHandler.saveAccount(account);
 	}
 	
 	public void createAccountOnClick(View view) {

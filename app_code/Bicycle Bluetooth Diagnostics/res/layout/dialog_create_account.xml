@@ -11,11 +11,13 @@
     <EditText
         style="@style/dialog"
         android:id="@+id/dialog_username"
+        android:inputType="textPersonName"
+        android:hint="@string/dialog_username"
         />
     <EditText
         style="@style/dialog"
         android:id="@+id/dialog_weight"
-        android:inputType="textPersonName"
+		android:inputType="number"
         android:hint="@string/dialog_weight"/>
     <EditText
         style="@style/dialog"

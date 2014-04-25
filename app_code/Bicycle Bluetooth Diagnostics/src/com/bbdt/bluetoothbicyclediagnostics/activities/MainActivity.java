@@ -11,13 +11,26 @@ import android.view.Menu;
 import android.view.View;
 
 import com.bbdt.bluetoothbicyclediagnostics.R;
+import com.bbdt.bluetoothbicyclediagnostics.dialogs.CreateAccountDialog;
+import com.bbdt.bluetoothbicyclediagnostics.serializable.Account;
+import com.bbdt.bluetoothbicyclediagnostics.serializable.FileHandler;
 
 public class MainActivity extends FragmentActivity implements CreateAccountDialog.NoticeDialogListener {
+	private Account account;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);		
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);	
+		FileHandler.init();
+		
+		account = FileHandler.getDefaultAccount();
+		if(account == null){
+			Intent intent = new Intent(this, ManageAccountsActivity.class);
+			intent.putExtra("Create", true);
+			this.startActivity(intent);
+		}
 	}
 
 	@Override
@@ -33,7 +46,7 @@ public class MainActivity extends FragmentActivity implements CreateAccountDialo
 	 */
 	public void goToManageAccounts(View view){
 		Intent intent = new Intent(view.getContext(), ManageAccountsActivity.class);
-		view.getContext().startActivity(intent);
+		this.startActivity(intent);
 	}
 	
 	/**
@@ -42,7 +55,7 @@ public class MainActivity extends FragmentActivity implements CreateAccountDialo
 	 */
 	public void goToRidingHistory(View view){
 		Intent intent = new Intent(view.getContext(), RidingHistoryActivity.class);
-		view.getContext().startActivity(intent);
+		startActivity(intent);
 	}
 	
 	/**
@@ -51,8 +64,7 @@ public class MainActivity extends FragmentActivity implements CreateAccountDialo
 	 */
 	public void goToNewRide(View view){
 		Intent intent = new Intent(view.getContext(), NewRideActivity.class);
-		
-		view.getContext().startActivity(intent);
+		startActivity(intent);
 	}
 
 	public void ShowNoticeDialog() {
