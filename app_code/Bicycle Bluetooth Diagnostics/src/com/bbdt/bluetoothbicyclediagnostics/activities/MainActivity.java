@@ -1,3 +1,10 @@
+/*
+ * Project: Bicycle Bluetooth Diagnostics Module
+ * Class:	EECS 398/399, Spring 2014
+ * 
+ * Team:	Brian Hayt, Matt McKee, Ken Akiki, Casey Stoessl, Rachid Lamouri
+ */
+
 package com.bbdt.bluetoothbicyclediagnostics.activities;
 
 import android.app.FragmentManager;
@@ -15,11 +22,15 @@ import com.bbdt.bluetoothbicyclediagnostics.dialogs.AccountRequiredDialog;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.Account;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.FileHandler;
 
+/**
+ * Main activity for Bicycle Bluetooth Diagnostics Module project.
+ * Application has features to create and store user accounts to use to monitor a bike ride.
+ */
 public class MainActivity extends FragmentActivity {
 	/** Request codes for onactivityresult */
 	private static final int REQUEST_CREATE_ACCOUNT = 1;
+	/** Request codes for onactivityresult */
 	private static final int REQUEST_GET_ACCOUNT_NAME = 2;
-	
 	
 	/** Toast text */
 	private static String TOAST_MAKE_ACCOUNT = "Please make a default account.";
@@ -31,7 +42,7 @@ public class MainActivity extends FragmentActivity {
 	private AccountRequiredDialog dialog;
 	
 	/**
-	 * Callback for starting the activity
+	 * Method callback for starting the activity
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +59,9 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Identifies current user's information and account
+	 */
 	private void setCurrentUserText(){
 		account = FileHandler.getDefaultAccount(this);
 		if(account != null){
@@ -72,8 +86,10 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent){
 		switch(requestCode){
+		//for onActivityRequest, create an account
 		case REQUEST_CREATE_ACCOUNT:
 			account = FileHandler.getDefaultAccount(this);
+			//retrieved field is null, so, create a new accout
 			if(account == null){
 				dialog = new AccountRequiredDialog();
 				FragmentManager manager = getFragmentManager();	
@@ -83,29 +99,11 @@ public class MainActivity extends FragmentActivity {
 				setCurrentUserText();
 			}
 			break;
+		//retrieves the current account data
 		case REQUEST_GET_ACCOUNT_NAME:
 			setCurrentUserText();
 			break;
 		}
-	}
-	
-	/**
-	 * Ok click method for the accountrequired dialog
-	 * @param view
-	 */
-	public void confirmClick(View view){
-		dialog.setExit(false);
-		createAccount();
-		dialog.dismiss();
-	}
-	
-	/**
-	 * exit click method for the acountrequired dialog
-	 * @param view
-	 */
-	public void exitClick(View view){
-		dialog.setExit(true);
-		finish();
 	}
 
 	/** 
@@ -135,7 +133,25 @@ public class MainActivity extends FragmentActivity {
 		startActivity(intent);
 	}
 	
-
+	/**
+	 * "OK" click method for the accountRequired dialog
+	 * @param view
+	 */
+	public void confirmClick(View view){
+		dialog.setExit(false);
+		createAccount();
+		dialog.dismiss();
+	}
+	
+	/**
+	 * "exit" click method for the acountRequired dialog
+	 * @param view
+	 */
+	public void exitClick(View view){
+		dialog.setExit(true);
+		finish();
+	}
+	
 	/**
 	 * Create the options menu (not used)
 	 */

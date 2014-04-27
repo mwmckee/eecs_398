@@ -1,3 +1,10 @@
+/*
+ * Project: Bicycle Bluetooth Diagnostics Module
+ * Class:	EECS 398/399, Spring 2014
+ * 
+ * Team:	Brian Hayt, Matt McKee, Ken Akiki, Casey Stoessl, Rachid Lamouri
+ */
+
 package com.bbdt.bluetoothbicyclediagnostics.activities;
 
 import android.app.Activity;
@@ -12,13 +19,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bbdt.bluetoothbicyclediagnostics.R;
-import com.bbdt.bluetoothbicyclediagnostics.dialogs.EditAccountAccountsListDialog;
 import com.bbdt.bluetoothbicyclediagnostics.dialogs.CreateAccountDialog;
+import com.bbdt.bluetoothbicyclediagnostics.dialogs.EditAccountAccountsListDialog;
 import com.bbdt.bluetoothbicyclediagnostics.dialogs.EditAccountDialog;
 import com.bbdt.bluetoothbicyclediagnostics.dialogs.SwitchAccountAccountsListDialog;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.Account;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.FileHandler;
 
+/**
+ * Public method to manage the accounts for the Bicycle Bluetooth Project 
+ * Capabilities to create accounts, store them, switch, and edit
+ */
 public class ManageAccountsActivity extends Activity{
 	private boolean exitOnCreateAccount = false;
 	
@@ -51,6 +62,9 @@ public class ManageAccountsActivity extends Activity{
 		setCurrentUserText();
 	}
 	
+	/**
+	 * Identifies current user account, sets visible username, and retrieves related data.
+	 */
 	private void setCurrentUserText(){
 		Account account = FileHandler.getDefaultAccount(this);
 		if(account != null){
@@ -60,8 +74,7 @@ public class ManageAccountsActivity extends Activity{
 	}
 	
 	/**
-	 * Save an account
-	 * @param view
+	 * Save an account with username, age, weight, and wheel diameter fields
 	 */
 	public void saveAccount() {
 		FragmentManager manager = this.getFragmentManager();

@@ -1,10 +1,17 @@
+/*
+ * Project: Bicycle Bluetooth Diagnostics Module
+ * Class:	EECS 398/399, Spring 2014
+ * 
+ * Team:	Brian Hayt, Matt McKee, Ken Akiki, Casey Stoessl, Rachid Lamouri
+ */
+
 package com.bbdt.bluetoothbicyclediagnostics.activities;
 
-import com.bbdt.bluetoothbicyclediagnostics.R;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
+
+import com.bbdt.bluetoothbicyclediagnostics.R;
 
 public class RidingHistoryActivity extends Activity {
 	@Override
