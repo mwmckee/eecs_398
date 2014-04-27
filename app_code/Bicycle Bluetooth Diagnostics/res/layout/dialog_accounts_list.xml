@@ -1,0 +1,11 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/root_vertical"
+	android:padding="@dimen/list_padding"> 
+	<TextView
+	    style="@style/dialog_title"
+	    android:text="@string/select_account"/>	
+   	<ListView
+       	android:id="@+id/accounts_list"
+       	style="@style/root">
+   	</ListView>    
+</LinearLayout>

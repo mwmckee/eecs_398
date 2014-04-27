@@ -13,17 +13,24 @@
 	<color name="gold">			#E49400</color>
 	<color name="red_orange">	#BD5200</color>
 	
-	<color name="action_bar_background">	@color/gold</color>
+	<color name="action_bar_background">	@color/red_orange</color>
 	<color name="action_bar_text">			@color/black</color>
 	
-	<color name="root_background">@color/tan</color>
+	<color name="root_background">@color/gold</color>
 	
-	<color name="button">			@color/gold</color>
+	<color name="button">			@color/tan</color>
 	<color name="button_pressed">	@color/red_orange</color>
+	
+	<color name="tv"> @color/banana</color>
 	
 	<color name="button_text">	@color/black</color>
 	<color name="label_text">	@color/black</color>
 	
-	<color name="dialog_text">	@color/black</color>
-	<color name="dialog_field">	@color/banana</color>
+	<color name="title">			@color/red_orange</color>
+	<color name="dialog_title">		@color/red_orange</color>
+	<color name="dialog_text">		@color/black</color>
+	<color name="dialog_field">		@color/banana</color>
+	<color name="dialog_button">	@color/banana</color>
+	
+	<color name="error"> @color/red</color>
 </resources>

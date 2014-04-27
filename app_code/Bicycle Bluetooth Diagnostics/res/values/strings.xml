@@ -8,6 +8,7 @@
     <string name="unknown_device">Unknown device</string>
     
     <!-- Main Menu -->
+    <string name="current_user">	Current User</string>
     <string name="manage_accounts">	Manage Accounts</string>
 	<string name="riding_history">	Riding History</string>
     <string name="start_new_ride">	Start New Ride</string>
@@ -17,20 +18,29 @@
 	<string name="edit_account">	Edit Account</string>
     <string name="create_account">	Create Account</string>
     
+    <!-- Activity Names -->
     <string name="manage_accounts_activity_name">	@string/manage_accounts</string>
     <string name="riding_history_activity_name">	@string/riding_history</string>
     
-    <string name="dialog_username">	Username</string>
-    <string name="dialog_age">		Age</string>
-    <string name="dialog_weight">	Weight</string>
-    <string name="dialog_wheel">	Wheel Diameter</string>
+    <!-- Dialog Text -->
+    <string name="dialog_username">		Username</string>
+    <string name="dialog_age">			Age</string>
+    <string name="dialog_weight">		Weight (lbs.)</string>
+    <string name="dialog_wheel">		Wheel Diameter (in.)</string>
+    <string name="account_required">	An account is required. Press confirm to make one or exit to exit the application.</string>
+    <string name="select_account">		Select Account</string>
 
-    <string name="save">		Save</string>
-    <string name="cancel">		Cancel</string>
-
-    <string name="send_message">			Send</string>
+    <!-- Dialog Buttons -->
+    <string name="save">			Save</string>
+    <string name="cancel">			Cancel</string>
+    <string name="exit">			Exit</string>
+    <string name="confirm">			Confirm</string>
+    <string name="send_message">	Send</string>
+    <string name="delete_account">	Delete Account</string>
     
+    <!-- Bluno -->
     <string name="connected">Connected</string>
     <string name="Disconnected">Disconnected</string>
-
+    
+    
 </resources>

@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/dialog_root"> 
+    
+    <!-- Need Name, Weight, Age, Wheel Diameter
+    Weight and Age used for calories burned
+    Wheel diameter for distance/rpm -->
+    
+    <TextView
+        android:id="@+id/dialog_username"
+        style="@style/dialog_title" 
+        android:layout_alignParentTop="true"/>
+    <EditText
+        android:id="@+id/dialog_weight"
+        style="@style/dialog_edit_text"
+        android:layout_below="@id/dialog_username"
+		android:inputType="number"
+        android:hint="@string/dialog_weight"/>
+    <EditText
+        android:id="@+id/dialog_age"
+        style="@style/dialog_edit_text"
+        android:layout_below="@id/dialog_weight"
+        android:inputType="number"
+        android:hint="@string/dialog_age"/>
+    <EditText
+        android:id="@+id/dialog_wheel"
+        style="@style/dialog_edit_text"
+        android:layout_below="@id/dialog_age"
+        android:inputType="number"
+        android:hint="@string/dialog_wheel"/>
+    <!-- Save data to file associated with user -->
+    
+    <LinearLayout 
+  		style="@style/ll_horizontal"
+  		android:layout_below="@id/dialog_wheel">
+  	    <Button
+        	style="@style/dialog_button"
+        	android:text="@string/save"
+        	android:onClick="saveEditedAccountClick"/>
+  		<Button
+	      	style="@style/dialog_button"
+	    	android:text="@string/delete_account"
+	    	android:onClick="deleteAccountClick"/>
+  	</LinearLayout>    
+   
+</RelativeLayout>

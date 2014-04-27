@@ -5,10 +5,13 @@ import java.util.List;
 
 import com.bbdt.bluetoothbicyclediagnostics.R;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -178,8 +181,6 @@ public abstract  class BlunoLibrary  extends Activity{
 		}).create();
 		
     }
-    
-    
     
     public void onResumeProcess() {
     	System.out.println("BlUNOActivity onResume");

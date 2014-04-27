@@ -1,19 +1,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/root">
+    <TextView
+        android:id="@+id/current_user"
+        android:text="@string/current_user"
+        android:layout_above="@+id/switch_account"
+        style="@style/current_user"/>
     <Button
-        style="@style/button"
+        style="@style/menu_button"
         android:layout_above="@+id/edit_account"
         android:id="@+id/switch_account"
         android:text="@string/switch_account"
-    	android:onClick="switchAccountOnClick"/>
+    	android:onClick="switchAccountClick"/>
     <Button
         android:id="@id/edit_account"
-        style="@style/button"
+        style="@style/menu_button"
         android:text="@string/edit_account"
-    	android:onClick="editAccountOnClick"/>
+    	android:onClick="editAccountClick"/>
     <Button
-        style="@style/button"
+        style="@style/menu_button"
         android:layout_below="@id/edit_account"
         android:text="@string/create_account"
-        android:onClick="createAccountOnClick"/>
+        android:onClick="createAccountClick"/>
 </RelativeLayout>

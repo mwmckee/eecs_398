@@ -1,8 +1,30 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/root"> 
-    <Button
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/root"
+    android:orientation="vertical"> 
+    <TextView 
+        android:id="@+id/distance"
+        android:text="Distance"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:onClick="scan"
-        />   
-</RelativeLayout>
+        android:layout_height="50dp"/>
+    <TextView 
+        android:id="@+id/speed"
+        android:text="Speed"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+    <TextView 
+        android:id="@+id/heart_rate"
+        android:text="Heart Rate"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+    <TextView 
+        android:id="@+id/tire_pressure"
+        android:text="Tire Pressure"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+    <Button
+        android:id="@+id/end_ride_button"
+        android:text="End Ride"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:onClick="endRideClick"/>   
+</LinearLayout>

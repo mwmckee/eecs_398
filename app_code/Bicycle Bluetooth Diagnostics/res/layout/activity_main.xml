@@ -1,18 +1,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/root">
+    <TextView
+        android:id="@+id/current_user"
+        android:text="@string/current_user"
+        android:layout_above="@+id/manage_accounts_button"
+        style="@style/current_user"/>
     <Button
-        android:id="@+id/manage_accounts_button"
-        style="@style/button"
+        android:id="@id/manage_accounts_button"
+        style="@style/menu_button"
         android:layout_above="@+id/riding_history_button"
         android:text="@string/manage_accounts"
         android:onClick="goToManageAccounts"/>
     <Button
         android:id="@id/riding_history_button"
-        style="@style/button"
+        style="@style/menu_button"
         android:text="@string/riding_history"
         android:onClick="goToRidingHistory"/>
     <Button
-        style="@style/button"
+        style="@style/menu_button"
         android:layout_below="@id/riding_history_button"
         android:text="@string/start_new_ride"
         android:onClick="goToNewRide"/>

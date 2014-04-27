@@ -17,6 +17,22 @@
     	<item name="android:background">		@color/root_background</item>
     </style>
     
+    <style name="dialog_root">
+        <item name="android:layout_width">		@dimen/dialog_width</item>
+   		<item name="android:layout_height">		wrap_content</item>
+   		<item name="android:background">		@color/root_background</item>
+    </style>
+    
+    <style name="dialog_root_vertical"
+        parent="dialog_root">
+         <item name="android:orientation">vertical</item>
+    </style>
+    
+    <style name="dialog_root_horizontal"
+        parent="dialog_root">
+        <item name="android:orientation">horizontal</item>
+    </style>
+    
     <style name="root_horizontal" parent="root">
         <item name="android:orientation">horizontal</item>
     </style>
@@ -25,7 +41,32 @@
         <item name="android:orientation">vertical</item>
     </style>
     
-    <style name="button">
+    <style name="ll_horizontal"
+        parent="ll">
+        <item name="android:orientation"> horizontal</item>
+    </style>
+    
+    <style name="ll_vertical"
+        parent="ll">
+        <item name="android:orientation"> vertical</item>
+    </style>
+    
+    <style name="ll">
+        <item name="android:layout_width">	match_parent</item>
+        <item name="android:layout_height">	wrap_content</item>
+    </style>
+    
+    <style name="current_user">
+        <item name="android:layout_width">			@dimen/button_width</item>
+        <item name="android:layout_height">			@dimen/current_user_height</item>
+        <item name="android:gravity">				center</item>
+        <item name="android:layout_centerInParent">	true</item>
+    	<item name="android:background">			@color/title</item>
+    	<item name="android:textSize">				@dimen/main_menu_button_text_size</item>
+    	<item name="android:layout_margin">			@dimen/main_menu_button_margin</item> 
+    </style>
+    
+    <style name="menu_button">
     	<item name="android:layout_width">			@dimen/button_width</item>    
     	<item name="android:layout_height">			@dimen/main_menu_button_height</item>
     	<item name="android:layout_centerInParent">	true</item>
@@ -33,12 +74,36 @@
     	<item name="android:textSize">				@dimen/main_menu_button_text_size</item>
     	<item name="android:layout_margin">			@dimen/main_menu_button_margin</item> 
     </style>
-
     
-    <style name="dialog">
-		<item name="android:layout_width">			@dimen/dialog_width</item>    
+    <style name="dialog_text">
+        <item name="android:layout_width">			match_parent</item>
+        <item name="android:layout_height">			@dimen/tv_height</item>
+        <item name="android:background">			@color/tv</item>
+        <item name="android:textSize">				@dimen/tv_text_size</item>
+        <item name="android:layout_margin">			@dimen/main_menu_dialog_margin</item>  
+    </style>
+    
+    <style name="dialog_title"
+        parent="dialog_text">
+        <item name="android:textSize">		@dimen/tv_text_size</item>
+        <item name="android:gravity">		center</item>
+        <item name="android:background">	@color/dialog_title</item>
+    </style>
+    
+    <style name="dialog_button">
+        <item name="android:layout_width">			0dp</item>
+        <item name="android:layout_height">			@dimen/dialog_button_height</item>
+        <item name="android:layout_weight">			1</item>
+        <item name="android:background">			@drawable/main_menu_button_background</item>
+        <item name="android:textSize">				@dimen/dialog_button_text_size</item>
+        <item name="android:layout_margin">			@dimen/main_menu_dialog_margin</item> 
+    </style>
+    
+     <style name="dialog_edit_text">
+		<item name="android:layout_width">			match_parent</item>    
     	<item name="android:layout_height">			@dimen/main_menu_dialog_height</item>
-    	<item name="android:background">			@drawable/main_menu_button_background</item>
+    	<item name="android:background">			@color/tv</item>
     	<item name="android:textSize">				@dimen/main_menu_dialog_text_size</item>
-    	<item name="android:layout_margin">			@dimen/main_menu_dialog_margin</item>    </style>
+    	<item name="android:layout_margin">			@dimen/main_menu_dialog_margin</item>   
+    </style>
 </resources>

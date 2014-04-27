@@ -1,7 +1,5 @@
 package com.bbdt.bluetoothbicyclediagnostics.activities;
 
-
-import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -9,44 +7,114 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bbdt.bluetoothbicyclediagnostics.R;
-import com.bbdt.bluetoothbicyclediagnostics.dialogs.CreateAccountDialog;
+import com.bbdt.bluetoothbicyclediagnostics.dialogs.AccountRequiredDialog;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.Account;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.FileHandler;
 
-public class MainActivity extends FragmentActivity implements CreateAccountDialog.NoticeDialogListener {
-	private Account account;
+public class MainActivity extends FragmentActivity {
+	/** Request codes for onactivityresult */
+	private static final int REQUEST_CREATE_ACCOUNT = 1;
+	private static final int REQUEST_GET_ACCOUNT_NAME = 2;
 	
+	
+	/** Toast text */
+	private static String TOAST_MAKE_ACCOUNT = "Please make a default account.";
+	
+	/** Tag used to tell manage accounts to make default account */
+	public static final String EXTRA_CREATE_ACCOUNT = "Create";
+	
+	private Account account;
+	private AccountRequiredDialog dialog;
+	
+	/**
+	 * Callback for starting the activity
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);	
-		FileHandler.init();
+		setContentView(R.layout.activity_main);
 		
-		account = FileHandler.getDefaultAccount();
+		account = FileHandler.getDefaultAccount(this);
 		if(account == null){
-			Intent intent = new Intent(this, ManageAccountsActivity.class);
-			intent.putExtra("Create", true);
-			this.startActivity(intent);
+			createAccount();
+		}
+		else{
+			setCurrentUserText();
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+	private void setCurrentUserText(){
+		account = FileHandler.getDefaultAccount(this);
+		if(account != null){
+			TextView currentUser = (TextView)this.findViewById(R.id.current_user);
+			currentUser.setText(account.getUsername());
+		}
+	}
+
+	/**
+	 * Start a ManageAccountsActivity telling it to create an account
+	 */
+	private void createAccount(){
+		Toast.makeText(this, TOAST_MAKE_ACCOUNT, Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(this, ManageAccountsActivity.class);
+		intent.putExtra(EXTRA_CREATE_ACCOUNT, true);
+		this.startActivityForResult(intent, REQUEST_CREATE_ACCOUNT);
 	}
 	
+	/**
+	 * Get result from start activity for result call
+	 */
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent intent){
+		switch(requestCode){
+		case REQUEST_CREATE_ACCOUNT:
+			account = FileHandler.getDefaultAccount(this);
+			if(account == null){
+				dialog = new AccountRequiredDialog();
+				FragmentManager manager = getFragmentManager();	
+				dialog.show(manager, "NoticeDialogFragment");
+			}
+			else{
+				setCurrentUserText();
+			}
+			break;
+		case REQUEST_GET_ACCOUNT_NAME:
+			setCurrentUserText();
+			break;
+		}
+	}
+	
+	/**
+	 * Ok click method for the accountrequired dialog
+	 * @param view
+	 */
+	public void confirmClick(View view){
+		dialog.setExit(false);
+		createAccount();
+		dialog.dismiss();
+	}
+	
+	/**
+	 * exit click method for the acountrequired dialog
+	 * @param view
+	 */
+	public void exitClick(View view){
+		dialog.setExit(true);
+		finish();
+	}
+
 	/** 
 	 * On Click for manage accounts button
 	 * @param view
 	 */
 	public void goToManageAccounts(View view){
 		Intent intent = new Intent(view.getContext(), ManageAccountsActivity.class);
-		this.startActivity(intent);
+		this.startActivityForResult(intent, REQUEST_GET_ACCOUNT_NAME);
 	}
 	
 	/**
@@ -66,23 +134,14 @@ public class MainActivity extends FragmentActivity implements CreateAccountDialo
 		Intent intent = new Intent(view.getContext(), NewRideActivity.class);
 		startActivity(intent);
 	}
-
-	public void ShowNoticeDialog() {
-		DialogFragment dialog = new CreateAccountDialog();
-		//FragmentManager manager = getSupportFragmentManager();	//It should be this.
-		FragmentManager manager = getFragmentManager();			//Not this.
-		dialog.show(manager, "NoticeDialogFragment");
-	}
 	
-	@Override
-	public void onDialogPositiveClick(DialogFragment dialog) {
-		// TODO Auto-generated method stub
-		
-	}
 
+	/**
+	 * Create the options menu (not used)
+	 */
 	@Override
-	public void onDialogNegativeClick(DialogFragment dialog) {
-		// TODO Auto-generated method stub
-		
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
 	}
 }

@@ -2,18 +2,21 @@ package com.bbdt.bluetoothbicyclediagnostics.activities;
 
 import java.util.ArrayList;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.bbdt.bluetoothbicyclediagnostics.R;
 import com.bbdt.bluetoothbicyclediagnostics.bluno.BlunoLibrary;
-import com.bbdt.bluetoothbicyclediagnostics.bluno.BlunoLibrary.connectionStateEnum;
+import com.bbdt.bluetoothbicyclediagnostics.dialogs.ConfirmEndRideDialog;
+import com.bbdt.bluetoothbicyclediagnostics.serializable.FileHandler;
+import com.bbdt.bluetoothbicyclediagnostics.serializable.HeartRateMap;
+import com.bbdt.bluetoothbicyclediagnostics.serializable.ListMap;
+import com.bbdt.bluetoothbicyclediagnostics.serializable.RideData;
+import com.bbdt.bluetoothbicyclediagnostics.serializable.RotationMap;
 
 public class NewRideActivity extends BlunoLibrary{	
 	private static final char TAG_SUFFIX 			= 'E'; 
@@ -21,6 +24,8 @@ public class NewRideActivity extends BlunoLibrary{
 	private static final String TAG_HEART 			= "HRT";
 	private static final String TAG_PRESSURE		= "PRS";
 	private static final String TAG_ACCELEROMETER 	= "ACC";
+	
+	private static final String CONFIRM_END_RIDE_TAG = "Confirm End Ride";
 	
 	private static final int HEART_SAMPLE_RATE = 10;
 	private int heartSamples = 0;
@@ -34,25 +39,7 @@ public class NewRideActivity extends BlunoLibrary{
 	private RotationMap rotationData = new RotationMap();
 	private HeartRateMap heartRateData = new HeartRateMap();
 	private ListMap pressureData = new ListMap();
-	private ListMap gradientData = new ListMap();
-	
-	private class RotationMap{
-		ArrayList<Long> times = new ArrayList<Long>();
-		ArrayList<Double> distances = new ArrayList<Double>();
-		ArrayList<Double> rpmData = new ArrayList<Double>();
-		ArrayList<Double> speeds = new ArrayList<Double>();
-	}
-	
-	private class HeartRateMap{
-		ArrayList<Long> times = new ArrayList<Long>();
-		ArrayList<Long> sampleTimes = new ArrayList<Long>();
-		ArrayList<Double> heartRates = new ArrayList<Double>();
-	}
-	
-	private class ListMap{
-		ArrayList<Long> times = new ArrayList<Long>();
-		ArrayList<Double> values = new ArrayList<Double>();
-	}
+	private ListMap gradientData = new ListMap();	
 
 	private double calculatePressure(double value){
 		return ((value * 4.9) - 200) / 44.1;
@@ -207,6 +194,7 @@ public class NewRideActivity extends BlunoLibrary{
 					case pressure:
 						pressureData.times.add(time);
 						pressureData.values.add(calculatePressure(intData));
+						Log.e("Pressure", "Value: " + calculatePressure(intData));
 						break;
 					case accelerometer:
 						step = Step.getData2;
@@ -255,4 +243,35 @@ public class NewRideActivity extends BlunoLibrary{
 	public void scan(View view){
        
 	}
+	
+	public void endRideClick(View view){
+		endRide();
+	}
+	
+	private void endRide(){
+		FragmentManager manager = this.getFragmentManager();
+		manager.popBackStack();
+		new ConfirmEndRideDialog().show(manager, CONFIRM_END_RIDE_TAG);
+	}
+	
+	public void yesClick(View view){
+		FileHandler.saveRide(new RideData(rotationData, heartRateData, pressureData, gradientData), this);
+		finish();
+	}
+	
+	public void noClick(View view){
+		FragmentManager manager = this.getFragmentManager();
+		ConfirmEndRideDialog dialog = (ConfirmEndRideDialog)manager.findFragmentByTag(CONFIRM_END_RIDE_TAG);
+		dialog.dismiss();
+	}
+	
+	public void onBackPressed() {
+		endRide();
+//		Intent setIntent = new Intent(Intent.ACTION_MAIN);
+//		setIntent.addCategory(Intent.CATEGORY_HOME);
+//		setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//		startActivity(setIntent);
+		
+	}
+
 }
