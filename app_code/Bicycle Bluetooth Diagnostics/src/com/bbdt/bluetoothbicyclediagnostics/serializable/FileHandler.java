@@ -1,3 +1,10 @@
+/*
+ * Project: Bicycle Bluetooth Diagnostics Module
+ * Class:	EECS 398/399, Spring 2014
+ * 
+ * Team:	Brian Hayt, Matt McKee, Ken Akiki, Casey Stoessl, Rachid Lamouri
+ */
+
 package com.bbdt.bluetoothbicyclediagnostics.serializable;
 
 import java.io.FileInputStream;
@@ -13,10 +20,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+/**
+ * File Handler to use with serializable data transfered from the Bluno for the Bicycle Bluetooth Diagnostics Module
+ */
 public class FileHandler {
 	private static final String accountsFile = "accounts.ser";
 	private static final String ridesFile = "rides.ser";
 	
+	/**
+	 * Saves a newly created file by alerting it to write to a file
+	 * @param account
+	 * @param activity
+	 * @return boolean indicating that an account was saved
+	 */
 	public static boolean saveAccount(Account account, Activity activity){
 		ArrayList<Account> accounts = getAccounts(activity);
 		// check username does not exist
@@ -32,6 +48,12 @@ public class FileHandler {
 		return true;
 	}
 	
+	/**
+	 * With command of deletion, clears and account from memory
+	 * @param account
+	 * @param activity
+	 * @return
+	 */
 	public static boolean deleteAccount(Account account, Activity activity){
 		ArrayList<Account> accounts = getAccounts(activity);
 		
@@ -55,6 +77,11 @@ public class FileHandler {
 		}
 	}
 	
+	/**
+	 * Upon a user editing an account, the application replaces the file with the new data
+	 * @param account
+	 * @param activity
+	 */
 	public static void replaceAccount(Account account, Activity activity){
 		ArrayList<Account> accounts = getAccounts(activity);
 		
@@ -70,6 +97,11 @@ public class FileHandler {
 		writeAccounts(accounts, activity);
 	}
 	
+	/**
+	 * Retrieves accounts from memory
+	 * @param activity
+	 * @return
+	 */
 	public static ArrayList<Account> getAccounts(Activity activity){
 		ArrayList<Account> accounts = new ArrayList<Account>();
 		try {
@@ -97,6 +129,11 @@ public class FileHandler {
 		return accounts;
 	}
 	
+	/**
+	 * Retrieves past ride data from phone memory
+	 * @param activity
+	 * @return
+	 */
 	public static ArrayList<RideData> getRides(Activity activity){
 		ArrayList<RideData> rides = new ArrayList<RideData>();
 		try {
@@ -124,6 +161,11 @@ public class FileHandler {
 		return rides;
 	}
 	
+	/**
+	 * The default account of the app will be the one last made. This method identifies and retrieves it.
+	 * @param activity
+	 * @return
+	 */
 	public static Account getDefaultAccount(Activity activity){
 		ArrayList<Account> accounts = getAccounts(activity);
 		
@@ -135,6 +177,11 @@ public class FileHandler {
 		}
 	}
 	
+	/**
+	 * Saves a ride's data to a file on the phone for retrieval later
+	 * @param data
+	 * @param activity
+	 */
 	public static void saveRide(RideData data, Activity activity){
 		ArrayList<RideData> rides = getRides(activity);
 		
@@ -156,6 +203,12 @@ public class FileHandler {
 		} 
 	}
 	
+	/**
+	 * Used in retrieval of past rides to complete a ride history
+	 * @param rideName
+	 * @param activity
+	 * @return ride data
+	 */
 	public static RideData getRideData(String rideName, Activity activity){
 		ArrayList<RideData> rides = getRides(activity);
 		for(RideData data: rides){
@@ -167,6 +220,12 @@ public class FileHandler {
 		return null;
 	}
 	
+	/**
+	 * Retrieves data from an account chosed by the user
+	 * @param accountName
+	 * @param activity
+	 * @return
+	 */
 	public static Account getAccount(String accountName, Activity activity){
 		ArrayList<Account> accounts = getAccounts(activity);
 		for(Account account: accounts){
@@ -178,6 +237,11 @@ public class FileHandler {
 		return null;
 	}
 	
+	/**
+	 * Resets the default account with the most recently used/created
+	 * @param accountName
+	 * @param activity
+	 */
 	public static void setDefaultAccount(String accountName, Activity activity){
 		ArrayList<Account> accounts = getAccounts(activity);
 		
@@ -193,6 +257,11 @@ public class FileHandler {
 		writeAccounts(accounts, activity);
 	}
 	
+	/**
+	 * Writes an account to a file in the phone's memory
+	 * @param accounts
+	 * @param activity
+	 */
 	private static void writeAccounts(ArrayList<Account> accounts, Activity activity){
 		// write back all the accounts
 		try {

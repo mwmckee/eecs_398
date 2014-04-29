@@ -24,9 +24,16 @@ import com.jjoe64.graphview.GraphViewDataInterface;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
 
+/**
+ * Activity to monitor the riding history within the Bicycle Bluetooth Diagnostics module app
+ *
+ */
 public class RidingHistoryActivity extends Activity {
 	private static final String RIDE_LIST_DIALOG = "Ride List";
 	
+	/**
+	 * On creation of instance, create ride history monitoring
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,6 +44,10 @@ public class RidingHistoryActivity extends Activity {
 		new RideListDialog().show(manager, RIDE_LIST_DIALOG);
 	}
 	
+	/**
+	 * Retrieves data for specified ride
+	 * @param view
+	 */
 	public void selectRideClick(View view){
 		Button button = (Button)view;
 		FragmentManager manager = this.getFragmentManager();
@@ -48,6 +59,10 @@ public class RidingHistoryActivity extends Activity {
 		displayData(data);
 	}
 	
+	/**
+	 * Initiates graph of data for ride
+	 * @param data
+	 */
 	private void displayData(RideData data){
 		GraphData[] graphData = new GraphData[data.rotationData.times.size()];
 		
@@ -55,6 +70,7 @@ public class RidingHistoryActivity extends Activity {
 			graphData[i] = new GraphData(data.rotationData.times.get(i), data.rotationData.distances.get(i));
 		}
 		
+		//creating a line graph
 		GraphViewSeries exampleSeries = new GraphViewSeries(graphData);
 		GraphView graphView = new LineGraphView(
 			    this // context

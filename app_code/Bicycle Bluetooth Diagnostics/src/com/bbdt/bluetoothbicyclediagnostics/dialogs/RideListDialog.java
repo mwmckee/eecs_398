@@ -1,3 +1,10 @@
+/*
+ * Project: Bicycle Bluetooth Diagnostics Module
+ * Class:	EECS 398/399, Spring 2014
+ * 
+ * Team:	Brian Hayt, Matt McKee, Ken Akiki, Casey Stoessl, Rachid Lamouri
+ */
+
 package com.bbdt.bluetoothbicyclediagnostics.dialogs;
 
 import android.app.AlertDialog;
@@ -10,6 +17,10 @@ import android.widget.ListView;
 import com.bbdt.bluetoothbicyclediagnostics.R;
 import com.bbdt.bluetoothbicyclediagnostics.adapters.RidesListAdapter;
 
+/**
+ * This class in the BBDM applications creates to display the view and choose past rides. 
+ *
+ */
 public class RideListDialog extends DialogFragment {		
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {

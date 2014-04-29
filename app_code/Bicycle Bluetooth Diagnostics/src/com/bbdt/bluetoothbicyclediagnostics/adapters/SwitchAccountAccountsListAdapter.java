@@ -1,16 +1,23 @@
+/*
+ * Project: Bicycle Bluetooth Diagnostics Module
+ * Class:	EECS 398/399, Spring 2014
+ * 
+ * Team:	Brian Hayt, Matt McKee, Ken Akiki, Casey Stoessl, Rachid Lamouri
+ */
+
 package com.bbdt.bluetoothbicyclediagnostics.adapters;
 
 import java.util.ArrayList;
-
-import com.bbdt.bluetoothbicyclediagnostics.R;
-import com.bbdt.bluetoothbicyclediagnostics.serializable.Account;
-import com.bbdt.bluetoothbicyclediagnostics.serializable.FileHandler;
 
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+
+import com.bbdt.bluetoothbicyclediagnostics.R;
+import com.bbdt.bluetoothbicyclediagnostics.serializable.Account;
+import com.bbdt.bluetoothbicyclediagnostics.serializable.FileHandler;
 
 public class SwitchAccountAccountsListAdapter extends BaseAdapter{
 	private Activity activity;

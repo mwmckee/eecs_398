@@ -1,3 +1,10 @@
+/*
+ * Project: Bicycle Bluetooth Diagnostics Module
+ * Class:	EECS 398/399, Spring 2014
+ * 
+ * Team:	Brian Hayt, Matt McKee, Ken Akiki, Casey Stoessl, Rachid Lamouri
+ */
+
 package com.bbdt.bluetoothbicyclediagnostics.dialogs;
 
 import android.app.AlertDialog;
@@ -10,6 +17,9 @@ import android.widget.ListView;
 import com.bbdt.bluetoothbicyclediagnostics.R;
 import com.bbdt.bluetoothbicyclediagnostics.adapters.EditAccountAccountsListAdapter;
 
+/**
+ * In the BBDM application, creates a dialog that retrieves the list of previously created accounts so the user can choose to edit one
+ */
 public class EditAccountAccountsListDialog extends DialogFragment {		
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {

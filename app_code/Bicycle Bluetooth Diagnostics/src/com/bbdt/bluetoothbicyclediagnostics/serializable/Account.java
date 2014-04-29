@@ -1,7 +1,17 @@
+/*
+ * Project: Bicycle Bluetooth Diagnostics Module
+ * Class:	EECS 398/399, Spring 2014
+ * 
+ * Team:	Brian Hayt, Matt McKee, Ken Akiki, Casey Stoessl, Rachid Lamouri
+ */
+
 package com.bbdt.bluetoothbicyclediagnostics.serializable;
 
 import java.io.Serializable;
 
+/**
+ * Account map to use with serializable data transfered from the Bluno for the Bicycle Bluetooth Diagnostics Module
+ */
 public class Account implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
