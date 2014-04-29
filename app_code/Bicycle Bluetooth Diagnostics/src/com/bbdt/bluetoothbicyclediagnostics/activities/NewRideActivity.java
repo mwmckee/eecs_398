@@ -8,10 +8,12 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.bbdt.bluetoothbicyclediagnostics.R;
 import com.bbdt.bluetoothbicyclediagnostics.bluno.BlunoLibrary;
 import com.bbdt.bluetoothbicyclediagnostics.dialogs.ConfirmEndRideDialog;
+import com.bbdt.bluetoothbicyclediagnostics.serializable.Account;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.FileHandler;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.HeartRateMap;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.ListMap;
@@ -25,6 +27,13 @@ public class NewRideActivity extends BlunoLibrary{
 	private static final String TAG_PRESSURE		= "PRS";
 	private static final String TAG_ACCELEROMETER 	= "ACC";
 	
+	private TextView distanceTV;
+	private TextView speedTV;
+	private TextView rpmTV;
+	private TextView heartRateTV;
+	private TextView tirePressureTV;
+	private TextView gradientTV;
+	
 	private static final String CONFIRM_END_RIDE_TAG = "Confirm End Ride";
 	
 	private static final int HEART_SAMPLE_RATE = 10;
@@ -34,12 +43,13 @@ public class NewRideActivity extends BlunoLibrary{
 	
 	private SensorType sensorType = SensorType.rotation;
 	
-	private double distanceIncrement = 20;
-	
 	private RotationMap rotationData = new RotationMap();
 	private HeartRateMap heartRateData = new HeartRateMap();
 	private ListMap pressureData = new ListMap();
-	private ListMap gradientData = new ListMap();	
+	private ListMap gradientData = new ListMap();
+	private int tempValue = 0;
+	
+	private Account account;
 
 	private double calculatePressure(double value){
 		return ((value * 4.9) - 200) / 44.1;
@@ -80,6 +90,15 @@ public class NewRideActivity extends BlunoLibrary{
         serialBegin(115200);													//set the Uart Baudrate on BLE chip to 115200
         
         buttonScanOnClickProcess();
+        
+        distanceTV = (TextView)findViewById(R.id.distance);
+        speedTV = (TextView)findViewById(R.id.speed);
+        rpmTV = (TextView)findViewById(R.id.rpm);
+        heartRateTV = (TextView)findViewById(R.id.heart_rate);
+        tirePressureTV = (TextView)findViewById(R.id.tire_pressure);
+        gradientTV = (TextView)findViewById(R.id.gradient);
+        
+        account = FileHandler.getDefaultAccount(this);
 	}
 
 	protected void onResume(){
@@ -112,9 +131,8 @@ public class NewRideActivity extends BlunoLibrary{
     }
 
 	@Override
-	public void onConectionStateChange(
-			connectionStateEnum theconnectionStateEnum) {
-		// TODO Auto-generated method stub
+	public void onConectionStateChange(connectionStateEnum theconnectionStateEnum) {
+		
 	}
 	
 	private StringBuilder dataBuffer = new StringBuilder("");
@@ -138,7 +156,7 @@ public class NewRideActivity extends BlunoLibrary{
 	}
 	
 	public void processData(String data) {
-		long time = START_TIME - System.currentTimeMillis();
+		long time = System.currentTimeMillis() - START_TIME;
 		Log.e("Data!", new String(data));
 		
 		if(data == null || data.length() == 0){
@@ -179,24 +197,55 @@ public class NewRideActivity extends BlunoLibrary{
 							ArrayList<Double> speeds = rotationData.speeds;
 							
 							times.add(time);
-							distances.add(distances.get(distances.size() - 1) + distanceIncrement);
-							rpmData.add(1.0/millisToMinutes(time - times.get(times.size() - 1)));
+							distances.add(distances.get(distances.size() - 1) + Math.PI*account.getWheelDiameter());
+							rpmData.add(1.0/millisToMinutes(time - times.get(times.size() - 2)));
 							double distance1 = distances.get(distances.size() - 1);
 							double distance2 = distances.get(distances.size() - 2);
 							long time1 = times.get(times.size() - 1);
 							long time2 = times.get(times.size() - 2);
 							speeds.add((distance1 - distance2)/((double)(time1 - time2)));
+							
+							distanceTV.setText(this.getResources().getString(R.string.distance) + " " + distances.get(distances.size() - 1));
+							speedTV.setText(this.getResources().getString(R.string.speed) + " " + speeds.get(speeds.size() - 1));
+							rpmTV.setText(this.getResources().getString(R.string.speed) + " " + speeds.get(speeds.size() - 1));		
 						}
 						break;
 					case heart:
-						
+						if(intData == 0){
+							ArrayList<Long> times = heartRateData.times;
+							times.add(time);
+							
+							if(times.size() > 20){
+								long[] sampleTimes = new long[20];
+								int i = 0;
+								int j = times.size() - 1;
+								long firstTime = 0;
+								while(j >= times.size() - 20 && time -  times.get(j) < 15000){
+									sampleTimes[i] = times.get(j);
+									i++;
+									j--;
+									firstTime = times.get(j);
+								}
+								
+								if(i < 20){
+									break;
+								}
+								else{
+									double rate = 20 * 60000 / ((double) (time - firstTime));
+									heartRateData.heartRates.add(rate);
+									heartRateTV.setText(getResources().getString(R.string.heart_rate) + " " + heartRateData.heartRates.get(heartRateData.heartRates.size() - 1));
+								}
+							}
+						}
 						break;
 					case pressure:
 						pressureData.times.add(time);
 						pressureData.values.add(calculatePressure(intData));
+						tirePressureTV.setText(this.getResources().getString(R.string.tire_pressure) + " " + pressureData.values.get(pressureData.values.size() - 1));
 						Log.e("Pressure", "Value: " + calculatePressure(intData));
 						break;
 					case accelerometer:
+						tempValue = intData;
 						step = Step.getData2;
 						break;
 					}
@@ -208,7 +257,11 @@ public class NewRideActivity extends BlunoLibrary{
 			case getData2:
 				step = Step.getEndTag;
 				try{
-					
+					int intData = Integer.parseInt(data);
+					double value = Math.atan2(tempValue, intData) + Math.PI;
+					value = value*180.0/Math.PI;
+					gradientData.values.add(value);
+					gradientTV.setText(getResources().getString(R.string.gradient) + " " + gradientData.values.get(gradientData.values.size() - 1));
 				}catch(NumberFormatException e){
 					step = Step.getData2;
 					Log.e("Parse Error", "Number Format Exception: did not get good data");
@@ -273,5 +326,6 @@ public class NewRideActivity extends BlunoLibrary{
 //		startActivity(setIntent);
 		
 	}
-
+	
+	
 }

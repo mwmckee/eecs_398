@@ -134,7 +134,6 @@ public class MainActivity extends FragmentActivity {
 		Intent intent = new Intent(view.getContext(), NewRideActivity.class);
 		startActivity(intent);
 	}
-	
 
 	/**
 	 * Create the options menu (not used)

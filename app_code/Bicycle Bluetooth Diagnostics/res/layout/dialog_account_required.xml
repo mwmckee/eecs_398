@@ -3,6 +3,7 @@
  	<TextView 
  	    android:id="@+id/dialog_text"
   		style="@style/dialog_text"
+  		android:layout_height="wrap_content"
   		android:text="@string/account_required"
     	android:textColor="@color/error"/>
   	<LinearLayout 

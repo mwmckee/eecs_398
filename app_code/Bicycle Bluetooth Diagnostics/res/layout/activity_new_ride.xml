@@ -3,24 +3,28 @@
     android:orientation="vertical"> 
     <TextView 
         android:id="@+id/distance"
-        android:text="Distance"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        style="@style/test_display"
+        android:text="@string/distance"/>
     <TextView 
         android:id="@+id/speed"
-        android:text="Speed"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+       	style="@style/test_display"
+        android:text="@string/speed"/>
+    <TextView 
+        android:id="@+id/rpm"
+       	style="@style/test_display"
+        android:text="@string/rpm"/>
     <TextView 
         android:id="@+id/heart_rate"
-        android:text="Heart Rate"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        style="@style/test_display"
+        android:text="@string/heart_rate"/>
     <TextView 
         android:id="@+id/tire_pressure"
-        android:text="Tire Pressure"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        style="@style/test_display"
+        android:text="@string/tire_pressure"/>
+    <TextView 
+        android:id="@+id/gradient"
+        style="@style/test_display"
+        android:text="@string/gradient"/>
     <Button
         android:id="@+id/end_ride_button"
         android:text="End Ride"

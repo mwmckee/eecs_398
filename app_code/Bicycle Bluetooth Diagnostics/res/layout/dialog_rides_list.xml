@@ -3,9 +3,9 @@
 	android:padding="@dimen/list_padding"> 
 	<TextView
 	    style="@style/dialog_title"
-	    android:text="@string/select_account"/>	
+	    android:text="@string/select_ride"/>	
    	<ListView
-       	android:id="@+id/rides_list"
+       	android:id="@+id/accounts_list"
        	style="@style/root">
    	</ListView>    
 </LinearLayout>

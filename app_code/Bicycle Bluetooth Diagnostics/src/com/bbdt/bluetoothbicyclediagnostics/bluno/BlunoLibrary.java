@@ -3,15 +3,8 @@ package com.bbdt.bluetoothbicyclediagnostics.bluno;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bbdt.bluetoothbicyclediagnostics.R;
-
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -25,6 +18,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.os.Handler;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,10 +28,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bbdt.bluetoothbicyclediagnostics.R;
+
 public abstract  class BlunoLibrary  extends Activity{
-
 	private Context mainContext = this;
-
 	
 //	public BlunoLibrary(Context theContext) {
 //		
@@ -167,7 +162,6 @@ public abstract  class BlunoLibrary  extends Activity{
 			}
 		})
 		.setOnCancelListener(new DialogInterface.OnCancelListener(){
-
 			@Override
 			public void onCancel(DialogInterface arg0) {
 				System.out.println("mBluetoothAdapter.stopLeScan");
@@ -177,9 +171,12 @@ public abstract  class BlunoLibrary  extends Activity{
 				mScanDeviceDialog.dismiss();
 
 				scanLeDevice(false);
+				
+				if(mDeviceName == null){
+					finish();
+				}
 			}
 		}).create();
-		
     }
     
     public void onResumeProcess() {
@@ -245,6 +242,9 @@ public abstract  class BlunoLibrary  extends Activity{
 				&& resultCode == Activity.RESULT_CANCELED) {
 			((Activity) mainContext).finish();
 			return;
+		}
+		else{
+			
 		}
 	}
 

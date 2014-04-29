@@ -156,6 +156,17 @@ public class FileHandler {
 		} 
 	}
 	
+	public static RideData getRideData(String rideName, Activity activity){
+		ArrayList<RideData> rides = getRides(activity);
+		for(RideData data: rides){
+			if(data.getLabel().equals(rideName)){
+				return data;
+			}
+		}
+		
+		return null;
+	}
+	
 	public static Account getAccount(String accountName, Activity activity){
 		ArrayList<Account> accounts = getAccounts(activity);
 		for(Account account: accounts){
