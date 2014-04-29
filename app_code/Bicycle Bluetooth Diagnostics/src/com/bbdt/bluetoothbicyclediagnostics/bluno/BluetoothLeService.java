@@ -35,6 +35,8 @@ import android.util.Log;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import com.bbdt.bluetoothbicyclediagnostics.bluno.BlunoLibrary.connectionStateEnum;
+
 
 /**
  * Service for managing connection and data communication with a GATT server hosted on a
@@ -109,8 +111,6 @@ public class BluetoothLeService extends Service {
                     Log.i(TAG, "Attempting to start service discovery:not success");
 
                 }
-
-
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
@@ -382,7 +382,9 @@ public class BluetoothLeService extends Service {
      *         {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
      *         callback.
      */
+    private String deviceName;
     public boolean connect(final String address) {
+    	deviceName = address;
     	System.out.println("BluetoothLeService connect"+address+mBluetoothGatt);
         if (mBluetoothAdapter == null || address == null) {
             Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");

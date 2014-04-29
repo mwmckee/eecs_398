@@ -13,6 +13,17 @@
 	<string name="riding_history">	Riding History</string>
     <string name="start_new_ride">	Start New Ride</string>
     
+    <!-- New Ride -->
+    <string name="distance">		Distance:</string>
+    <string name="speed">			Speed:</string>
+    <string name="rpm">				RPM:</string>
+    <string name="heart_rate">		Heart Rate:</string>
+    <string name="tire_pressure">	Tire Pressure:</string>
+    <string name="gradient">		Gradient</string>
+    
+    
+    
+    
     <!-- Manage Accounts Menu -->
     <string name="switch_account">	Switch Account</string>
 	<string name="edit_account">	Edit Account</string>
@@ -29,6 +40,7 @@
     <string name="dialog_wheel">		Wheel Diameter (in.)</string>
     <string name="account_required">	An account is required. Press confirm to make one or exit to exit the application.</string>
     <string name="select_account">		Select Account</string>
+    <string name="select_ride">			Select Ride</string>
 
     <!-- Dialog Buttons -->
     <string name="save">			Save</string>
@@ -41,6 +53,4 @@
     <!-- Bluno -->
     <string name="connected">Connected</string>
     <string name="Disconnected">Disconnected</string>
-    
-    
 </resources>

@@ -106,4 +106,9 @@
     	<item name="android:textSize">				@dimen/main_menu_dialog_text_size</item>
     	<item name="android:layout_margin">			@dimen/main_menu_dialog_margin</item>   
     </style>
+    
+	<style name="test_display">
+	    <item name="android:layout_width">			match_parent</item>    
+    	<item name="android:layout_height">			@dimen/tv_height</item>
+	</style>
 </resources>
