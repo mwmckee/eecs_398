@@ -23,7 +23,6 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -37,7 +36,7 @@
         </activity>
         <activity
             android:name="com.bbdt.bluetoothbicyclediagnostics.activities.NewRideActivity"
-            android:label="@string/app_name" >
+            android:label="@string/new_ride_activity_name" >
         </activity>
         <service android:name="com.bbdt.bluetoothbicyclediagnostics.bluno.BluetoothLeService" android:enabled="true"/>
     </application>

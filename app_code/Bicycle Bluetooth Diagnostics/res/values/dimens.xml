@@ -26,5 +26,9 @@
    	
    	<dimen name="current_user_height">32dp</dimen>
    	
-   	<dimen name="list_padding">2dp</dimen>    
+   	<dimen name="list_padding">2dp</dimen> 
+   	
+   	<dimen name="graph_padding">5dp</dimen>
+   	
+   	<dimen name="graph_height">120dp</dimen>
 </resources>

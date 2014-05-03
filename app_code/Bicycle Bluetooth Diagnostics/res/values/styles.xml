@@ -23,6 +23,16 @@
    		<item name="android:background">		@color/root_background</item>
     </style>
     
+    <style name="root_horizontal" 
+        parent="root">
+        <item name="android:orientation">horizontal</item>
+    </style>
+    
+    <style name="root_vertical" 
+        parent="root">
+        <item name="android:orientation">vertical</item>
+    </style>
+    
     <style name="dialog_root_vertical"
         parent="dialog_root">
          <item name="android:orientation">vertical</item>
@@ -31,14 +41,6 @@
     <style name="dialog_root_horizontal"
         parent="dialog_root">
         <item name="android:orientation">horizontal</item>
-    </style>
-    
-    <style name="root_horizontal" parent="root">
-        <item name="android:orientation">horizontal</item>
-    </style>
-    
-    <style name="root_vertical" parent="root">
-        <item name="android:orientation">vertical</item>
     </style>
     
     <style name="ll_horizontal"

@@ -16,6 +16,9 @@
 
 package com.bbdt.bluetoothbicyclediagnostics.bluno;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -31,11 +34,6 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-
-import com.bbdt.bluetoothbicyclediagnostics.bluno.BlunoLibrary.connectionStateEnum;
 
 
 /**
@@ -382,9 +380,7 @@ public class BluetoothLeService extends Service {
      *         {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
      *         callback.
      */
-    private String deviceName;
     public boolean connect(final String address) {
-    	deviceName = address;
     	System.out.println("BluetoothLeService connect"+address+mBluetoothGatt);
         if (mBluetoothAdapter == null || address == null) {
             Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");

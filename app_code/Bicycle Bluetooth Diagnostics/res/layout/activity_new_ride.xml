@@ -27,8 +27,7 @@
         android:text="@string/gradient"/>
     <Button
         android:id="@+id/end_ride_button"
-        android:text="End Ride"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        style="@style/menu_button"
+        android:text="@string/end_ride"
         android:onClick="endRideClick"/>   
 </LinearLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>    
-    <string name="app_name">		Bicycle Bluetooth Diagnostics</string>
+    <string name="app_name"> Bluetooth Diagnostics</string>
     
     <!-- BLUNO strings -->
     <string name="error_bluetooth_not_supported">BLE Not Supporteds</string>
@@ -22,6 +22,9 @@
     <string name="gradient">		Gradient</string>
     
     
+    <string name="end_ride"> End Ride</string>
+    
+    
     
     
     <!-- Manage Accounts Menu -->
@@ -32,6 +35,7 @@
     <!-- Activity Names -->
     <string name="manage_accounts_activity_name">	@string/manage_accounts</string>
     <string name="riding_history_activity_name">	@string/riding_history</string>
+    <string name="new_ride_activity_name">			Riding Display</string>
     
     <!-- Dialog Text -->
     <string name="dialog_username">		Username</string>
@@ -41,6 +45,7 @@
     <string name="account_required">	An account is required. Press confirm to make one or exit to exit the application.</string>
     <string name="select_account">		Select Account</string>
     <string name="select_ride">			Select Ride</string>
+    <string name="confirm_end_ride">    Would you like to exit the current session? (data is automatically saved)</string>
 
     <!-- Dialog Buttons -->
     <string name="save">			Save</string>
@@ -49,6 +54,8 @@
     <string name="confirm">			Confirm</string>
     <string name="send_message">	Send</string>
     <string name="delete_account">	Delete Account</string>
+    <string name="yes">             Yes</string>
+    <string name="no">              No</string>
     
     <!-- Bluno -->
     <string name="connected">Connected</string>

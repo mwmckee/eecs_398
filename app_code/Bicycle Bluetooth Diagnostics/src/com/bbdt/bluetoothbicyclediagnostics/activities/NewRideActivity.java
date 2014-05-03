@@ -36,9 +36,6 @@ public class NewRideActivity extends BlunoLibrary{
 	
 	private static final String CONFIRM_END_RIDE_TAG = "Confirm End Ride";
 	
-	private static final int HEART_SAMPLE_RATE = 10;
-	private int heartSamples = 0;
-	
 	private final long START_TIME;
 	
 	private SensorType sensorType = SensorType.rotation;
@@ -74,7 +71,7 @@ public class NewRideActivity extends BlunoLibrary{
 	public NewRideActivity(){
 		START_TIME = System.currentTimeMillis();
 		
-		rotationData.times.add(START_TIME);
+		rotationData.times.add(0L);
 		rotationData.distances.add(0.0);
 		rotationData.rpmData.add(0.0);
 		rotationData.speeds.add(0.0);
@@ -205,14 +202,14 @@ public class NewRideActivity extends BlunoLibrary{
 							long time2 = times.get(times.size() - 2);
 							speeds.add((distance1 - distance2)/((double)(time1 - time2)));
 							
-							distanceTV.setText(this.getResources().getString(R.string.distance) + " " + distances.get(distances.size() - 1));
-							speedTV.setText(this.getResources().getString(R.string.speed) + " " + speeds.get(speeds.size() - 1));
-							rpmTV.setText(this.getResources().getString(R.string.speed) + " " + speeds.get(speeds.size() - 1));		
+							distanceTV.setText(this.getResources().getString(R.string.distance) + " " + distances.get(distances.size() - 1).intValue());
+							speedTV.setText(this.getResources().getString(R.string.speed) + " " + speeds.get(speeds.size() - 1).intValue());
+							rpmTV.setText(this.getResources().getString(R.string.rpm) + " " + rpmData.get(speeds.size() - 1).intValue());		
 						}
 						break;
 					case heart:
 						if(intData == 0){
-							ArrayList<Long> times = heartRateData.times;
+							ArrayList<Long> times = heartRateData.sampleTimes;
 							times.add(time);
 							
 							if(times.size() > 20){
@@ -232,8 +229,9 @@ public class NewRideActivity extends BlunoLibrary{
 								}
 								else{
 									double rate = 20 * 60000 / ((double) (time - firstTime));
+									heartRateData.times.add(time);
 									heartRateData.heartRates.add(rate);
-									heartRateTV.setText(getResources().getString(R.string.heart_rate) + " " + heartRateData.heartRates.get(heartRateData.heartRates.size() - 1));
+									heartRateTV.setText(getResources().getString(R.string.heart_rate) + " " + heartRateData.heartRates.get(heartRateData.heartRates.size() - 1).intValue());
 								}
 							}
 						}
@@ -241,7 +239,7 @@ public class NewRideActivity extends BlunoLibrary{
 					case pressure:
 						pressureData.times.add(time);
 						pressureData.values.add(calculatePressure(intData));
-						tirePressureTV.setText(this.getResources().getString(R.string.tire_pressure) + " " + pressureData.values.get(pressureData.values.size() - 1));
+						tirePressureTV.setText(this.getResources().getString(R.string.tire_pressure) + " " + pressureData.values.get(pressureData.values.size() - 1).intValue());
 						Log.e("Pressure", "Value: " + calculatePressure(intData));
 						break;
 					case accelerometer:
@@ -261,7 +259,7 @@ public class NewRideActivity extends BlunoLibrary{
 					double value = Math.atan2(tempValue, intData) + Math.PI;
 					value = value*180.0/Math.PI;
 					gradientData.values.add(value);
-					gradientTV.setText(getResources().getString(R.string.gradient) + " " + gradientData.values.get(gradientData.values.size() - 1));
+					gradientTV.setText(getResources().getString(R.string.gradient) + " " + gradientData.values.get(gradientData.values.size() - 1).intValue());
 				}catch(NumberFormatException e){
 					step = Step.getData2;
 					Log.e("Parse Error", "Number Format Exception: did not get good data");
@@ -308,7 +306,7 @@ public class NewRideActivity extends BlunoLibrary{
 	}
 	
 	public void yesClick(View view){
-		FileHandler.saveRide(new RideData(rotationData, heartRateData, pressureData, gradientData), this);
+		FileHandler.saveRide(new RideData(START_TIME, rotationData, heartRateData, pressureData, gradientData), this);
 		finish();
 	}
 	

@@ -1,5 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
-    style="@style/root_vertical">
-	
-</LinearLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/root">
+   <LinearLayout
+        android:id="@+id/graph_root"
+        style="@style/root_vertical"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/graph_padding">
+    </LinearLayout>
+</ScrollView>

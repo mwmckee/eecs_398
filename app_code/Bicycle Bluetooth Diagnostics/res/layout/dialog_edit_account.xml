@@ -32,14 +32,14 @@
     <LinearLayout 
   		style="@style/ll_horizontal"
   		android:layout_below="@id/dialog_wheel">
-  	    <Button
-        	style="@style/dialog_button"
-        	android:text="@string/save"
-        	android:onClick="saveEditedAccountClick"/>
   		<Button
 	      	style="@style/dialog_button"
 	    	android:text="@string/delete_account"
 	    	android:onClick="deleteAccountClick"/>
+  		<Button
+        	style="@style/dialog_button"
+        	android:text="@string/save"
+        	android:onClick="saveEditedAccountClick"/>
   	</LinearLayout>    
    
 </RelativeLayout>

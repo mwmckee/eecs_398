@@ -5,15 +5,16 @@ import com.bbdt.bluetoothbicyclediagnostics.dialogs.RideListDialog;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.FileHandler;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.RideData;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphViewDataInterface;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.pm.ActivityInfo;
@@ -43,29 +44,96 @@ public class RidingHistoryActivity extends Activity {
 	}
 	
 	private void displayData(RideData data){
-		GraphData[] graphData = new GraphData[data.rotationData.times.size()];
+		// get the root view of the layout
+		LinearLayout graphRoot = (LinearLayout) findViewById(R.id.graph_root);
+		graphRoot.removeAllViews();
 		
-		for(int i = 0; i < graphData.length; i++){
-			graphData[i] = new GraphData(data.rotationData.times.get(i), data.rotationData.distances.get(i));
+		// the layout paramters for the views
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int)this.getResources().getDimension(R.dimen.graph_height));
+		
+		
+		
+		// initialize arrays to hold data
+		GraphData[] distData = new GraphData[data.rotationData.times.size()];
+		GraphData[] speedData = new GraphData[data.rotationData.times.size()];
+		GraphData[] rpmData = new GraphData[data.rotationData.times.size()];
+		GraphData[] heartData = new GraphData[data.heartRateData.times.size()];
+		GraphData[] pressureData = new GraphData[data.pressureData.times.size()];
+		GraphData[] gradientData = new GraphData[data.gradientData.times.size()];
+		
+		
+		Log.e("SIZE", "S " + heartData.length);
+		// store rot data
+		for(int i = 0; i < distData.length; i++){
+			distData[i] = new GraphData(data.startTime, data.rotationData.times.get(i), data.rotationData.distances.get(i));
+			speedData[i] = new GraphData(data.startTime, data.rotationData.times.get(i), data.rotationData.speeds.get(i));
+			rpmData[i] = new GraphData(data.startTime, data.rotationData.times.get(i), data.rotationData.rpmData.get(i));
 		}
 		
-		GraphViewSeries exampleSeries = new GraphViewSeries(graphData);
-		GraphView graphView = new LineGraphView(
-			    this // context
-			    , "GraphViewDemo" // heading
-			);
-		graphView.addSeries(exampleSeries); // data
-			 
-		LinearLayout layout = (LinearLayout) findViewById(R.id.root);
-			layout.addView(graphView);
+		// store heart data
+		for(int i = 0; i < heartData.length; i++){
+			heartData[i] = new GraphData(data.startTime, data.heartRateData.times.get(i), data.heartRateData.heartRates.get(i));
+		}
+		
+		// store pressure data
+		for(int i = 0; i < pressureData.length; i++){
+			pressureData[i] = new GraphData(data.startTime, data.pressureData.times.get(i), data.pressureData.values.get(i));
+		}
+		
+		// store gradient data
+		for(int i = 0; i < gradientData.length; i++){
+			gradientData[i] = new GraphData(data.startTime, data.gradientData.times.get(i), data.gradientData.values.get(i));
+		}
+		
+		// Create data series
+		GraphViewSeries distSeries = new GraphViewSeries(distData);
+		GraphViewSeries speedSeries = new GraphViewSeries(speedData);
+		GraphViewSeries rpmSeries = new GraphViewSeries(rpmData);
+		GraphViewSeries heartSeries = new GraphViewSeries(heartData);
+		GraphViewSeries pressureSeries = new GraphViewSeries(pressureData);
+		GraphViewSeries gradientSeries = new GraphViewSeries(gradientData);
+				
+		// create views and init titles
+		GraphView distView = new LineGraphView(this , "Distance vs Time");
+		GraphView speedView = new LineGraphView(this , "Speed vs Time");
+		GraphView rpmView = new LineGraphView(this , "RPM vs Time");
+		GraphView heartView = new LineGraphView(this , "Heart Rate vs Time");
+		GraphView pressureView = new LineGraphView(this , "Pressure vs Time");
+		GraphView gradientView = new LineGraphView(this , "Gradient vs Time");
+		
+		//set the layout parameters
+		distView.setLayoutParams(params);
+		speedView.setLayoutParams(params);
+		rpmView.setLayoutParams(params);
+		heartView.setLayoutParams(params);
+		pressureView.setLayoutParams(params);
+		gradientView.setLayoutParams(params);
+		
+		// add series to a view
+		distView.addSeries(distSeries);
+		speedView.addSeries(speedSeries);
+		rpmView.addSeries(rpmSeries);
+		heartView.addSeries(heartSeries);
+		pressureView.addSeries(pressureSeries);
+		gradientView.addSeries(gradientSeries);
+
+		// add views to the root view
+		graphRoot.addView(distView);
+		graphRoot.addView(speedView);
+		graphRoot.addView(rpmView);
+		graphRoot.addView(heartView);
+		graphRoot.addView(pressureView);
+		graphRoot.addView(gradientView);
+		
+		graphRoot.setLayoutParams(graphRoot.getLayoutParams());
 	}
 	
 	private class GraphData implements GraphViewDataInterface{
 		private double x;
 		private double y;
 		
-		private GraphData(double x, double y){
-			this.x = x;
+		private GraphData(long startTime, double x, double y){
+			this.x = x/1000.0;
 			this.y = y;
 		}
 		
