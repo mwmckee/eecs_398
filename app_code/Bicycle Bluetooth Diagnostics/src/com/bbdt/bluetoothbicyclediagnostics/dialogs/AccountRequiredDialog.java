@@ -1,3 +1,10 @@
+/*
+ * Project: Bicycle Bluetooth Diagnostics Module
+ * Class:	EECS 398/399, Spring 2014
+ * 
+ * Team:	Brian Hayt, Matt McKee, Ken Akiki, Casey Stoessl, Rachid Lamouri
+ */
+
 package com.bbdt.bluetoothbicyclediagnostics.dialogs;
 
 import android.app.AlertDialog;
@@ -9,6 +16,10 @@ import android.view.LayoutInflater;
 
 import com.bbdt.bluetoothbicyclediagnostics.R;
 
+/**
+ * For the Bicycle Bluetooth Diagnostics Application, this dialog prompts the user to create an account to proceed
+ *
+ */
 public class AccountRequiredDialog extends DialogFragment {	
 	/** Stores if the app should be closed */
 	private boolean exit = true;

@@ -1,4 +1,21 @@
+/*
+ * Project: Bicycle Bluetooth Diagnostics Module
+ * Class:	EECS 398/399, Spring 2014
+ * 
+ * Team:	Brian Hayt, Matt McKee, Ken Akiki, Casey Stoessl, Rachid Lamouri
+ */
+
 package com.bbdt.bluetoothbicyclediagnostics.activities;
+
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.bbdt.bluetoothbicyclediagnostics.R;
 import com.bbdt.bluetoothbicyclediagnostics.dialogs.RideListDialog;
@@ -9,19 +26,16 @@ import com.jjoe64.graphview.GraphViewDataInterface;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.content.pm.ActivityInfo;
-
+/**
+ * Activity to monitor the riding history within the Bicycle Bluetooth Diagnostics module app
+ *
+ */
 public class RidingHistoryActivity extends Activity {
 	private static final String RIDE_LIST_DIALOG = "Ride List";
 	
+	/**
+	 * On creation of instance, create ride history monitoring
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,6 +46,10 @@ public class RidingHistoryActivity extends Activity {
 		new RideListDialog().show(manager, RIDE_LIST_DIALOG);
 	}
 	
+	/**
+	 * Retrieves data for specified ride
+	 * @param view
+	 */
 	public void selectRideClick(View view){
 		Button button = (Button)view;
 		FragmentManager manager = this.getFragmentManager();
@@ -43,6 +61,10 @@ public class RidingHistoryActivity extends Activity {
 		displayData(data);
 	}
 	
+	/**
+	 * Initiates graph of data for ride
+	 * @param data
+	 */
 	private void displayData(RideData data){
 		// get the root view of the layout
 		LinearLayout graphRoot = (LinearLayout) findViewById(R.id.graph_root);
@@ -74,7 +96,7 @@ public class RidingHistoryActivity extends Activity {
 		for(int i = 0; i < heartData.length; i++){
 			heartData[i] = new GraphData(data.startTime, data.heartRateData.times.get(i), data.heartRateData.heartRates.get(i));
 		}
-		
+
 		// store pressure data
 		for(int i = 0; i < pressureData.length; i++){
 			pressureData[i] = new GraphData(data.startTime, data.pressureData.times.get(i), data.pressureData.values.get(i));

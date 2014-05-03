@@ -1,3 +1,10 @@
+/*
+ * Project: Bicycle Bluetooth Diagnostics Module
+ * Class:	EECS 398/399, Spring 2014
+ * 
+ * Team:	Brian Hayt, Matt McKee, Ken Akiki, Casey Stoessl, Rachid Lamouri
+ */
+
 package com.bbdt.bluetoothbicyclediagnostics.activities;
 
 import java.util.ArrayList;
@@ -20,6 +27,9 @@ import com.bbdt.bluetoothbicyclediagnostics.serializable.ListMap;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.RideData;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.RotationMap;
 
+/**
+ * Class to manage the new ride functionality of the Bicyle Bluetooth Diagnostics Module 
+ */
 public class NewRideActivity extends BlunoLibrary{	
 	private static final char TAG_SUFFIX 			= 'E'; 
 	private static final String TAG_ROTATION 		= "ROT";
@@ -48,6 +58,11 @@ public class NewRideActivity extends BlunoLibrary{
 	
 	private Account account;
 
+	/**
+	 * Calculation for tie pressure
+	 * @param value
+	 * @return tire pressure (in PSI)
+	 */
 	private double calculatePressure(double value){
 		return ((value * 4.9) - 200) / 44.1;
 	}
@@ -68,6 +83,9 @@ public class NewRideActivity extends BlunoLibrary{
 		accelerometer
 	}
 	
+	/**
+	 * Initiates the new ride activity ride time, distance, rpm, and speed
+	 */
 	public NewRideActivity(){
 		START_TIME = System.currentTimeMillis();
 		
@@ -77,6 +95,9 @@ public class NewRideActivity extends BlunoLibrary{
 		rotationData.speeds.add(0.0);
 	}
 	
+	/**
+	 * Creates the activity page for new ride
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -98,6 +119,9 @@ public class NewRideActivity extends BlunoLibrary{
         account = FileHandler.getDefaultAccount(this);
 	}
 
+	/**
+	 * Button to resume a ride after pause
+	 */
 	protected void onResume(){
 		super.onResume();
 		System.out.println("BlUNOActivity onResume");
@@ -110,17 +134,26 @@ public class NewRideActivity extends BlunoLibrary{
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
+	/**
+	 * Pauses a ride in process
+	 */
     @Override
     protected void onPause() {
         super.onPause();
         onPauseProcess();														//onPause Process by BlunoLibrary
     }
 	
+    /**
+     * Ends the current ride
+     */
 	protected void onStop() {
 		super.onStop();
 		onStopProcess();														//onStop Process by BlunoLibrary
 	}
     
+	/**
+	 * Deletes the selected ride
+	 */
 	@Override
     protected void onDestroy() {
         super.onDestroy();	
@@ -133,10 +166,13 @@ public class NewRideActivity extends BlunoLibrary{
 	}
 	
 	private StringBuilder dataBuffer = new StringBuilder("");
+	/**
+	 * Method to monitor the input being transmitted by the Bluno
+	 */
 	public void onSerialReceived(String data){
 		dataBuffer.append(data);
 		
-		StringBuilder nextData = new StringBuilder("");
+		StringBuilder nextData = new StringBuilder(""); 
 		for(int i = 0; i < dataBuffer.length(); i++){
 		 	if(dataBuffer.charAt(i) == '\r'){
 		 		processData(nextData.toString());
@@ -152,6 +188,10 @@ public class NewRideActivity extends BlunoLibrary{
 		dataBuffer = new StringBuilder(nextData.toString());
 	}
 	
+	/**
+	 * Method to interpret the transmitted data from Bluno
+	 * @param data
+	 */
 	public void processData(String data) {
 		long time = System.currentTimeMillis() - START_TIME;
 		Log.e("Data!", new String(data));
@@ -161,6 +201,7 @@ public class NewRideActivity extends BlunoLibrary{
 		}
 		
 		switch(step){
+			//Identify which type of data is being read
 			case getTag:
 				step = Step.getData;
 
@@ -186,6 +227,7 @@ public class NewRideActivity extends BlunoLibrary{
 				try{
 					int intData = Integer.parseInt(data);
 					switch(sensorType){
+					//Calculate distance travelled, speed, and rpm
 					case rotation:
 						if(intData == 0){
 							ArrayList<Long> times = rotationData.times;
@@ -207,6 +249,7 @@ public class NewRideActivity extends BlunoLibrary{
 							rpmTV.setText(this.getResources().getString(R.string.rpm) + " " + rpmData.get(speeds.size() - 1).intValue());		
 						}
 						break;
+					//calculate the heart rate beats per minute
 					case heart:
 						if(intData == 0){
 							ArrayList<Long> times = heartRateData.sampleTimes;
@@ -235,13 +278,15 @@ public class NewRideActivity extends BlunoLibrary{
 								}
 							}
 						}
-						break;
+					break;
+					//calculate the tire pressure
 					case pressure:
 						pressureData.times.add(time);
 						pressureData.values.add(calculatePressure(intData));
 						tirePressureTV.setText(this.getResources().getString(R.string.tire_pressure) + " " + pressureData.values.get(pressureData.values.size() - 1).intValue());
 						Log.e("Pressure", "Value: " + calculatePressure(intData));
 						break;
+					//calculate the values from the accelerometer
 					case accelerometer:
 						tempValue = intData;
 						step = Step.getData2;
@@ -265,6 +310,7 @@ public class NewRideActivity extends BlunoLibrary{
 					Log.e("Parse Error", "Number Format Exception: did not get good data");
 				}
 				break;
+			//catch the end tag to know when a particular data stream is completed
 			case getEndTag:
 				if(data.charAt(data.length() - 1) == TAG_SUFFIX){			
 					String endTag = (new StringBuilder(data)).deleteCharAt(data.length() - 1).toString();
@@ -295,21 +341,36 @@ public class NewRideActivity extends BlunoLibrary{
        
 	}
 	
+	/**
+	 * Button to end ride
+	 * @param view
+	 */
 	public void endRideClick(View view){
 		endRide();
 	}
 	
+	/**
+	 * Prompts the app to end the current ride
+	 */
 	private void endRide(){
 		FragmentManager manager = this.getFragmentManager();
 		manager.popBackStack();
 		new ConfirmEndRideDialog().show(manager, CONFIRM_END_RIDE_TAG);
 	}
 	
+	/**
+	 * After end of ride, if user elects to save the ride, save it
+	 * @param view
+	 */
 	public void yesClick(View view){
 		FileHandler.saveRide(new RideData(START_TIME, rotationData, heartRateData, pressureData, gradientData), this);
 		finish();
 	}
 	
+	/**
+	 * After end of ride, if user elects to dismiss the ride, then dismiss the ride
+	 * @param view
+	 */
 	public void noClick(View view){
 		FragmentManager manager = this.getFragmentManager();
 		ConfirmEndRideDialog dialog = (ConfirmEndRideDialog)manager.findFragmentByTag(CONFIRM_END_RIDE_TAG);

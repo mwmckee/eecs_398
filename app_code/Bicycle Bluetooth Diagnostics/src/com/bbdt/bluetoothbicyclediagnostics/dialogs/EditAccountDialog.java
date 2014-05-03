@@ -1,3 +1,10 @@
+/*
+ * Project: Bicycle Bluetooth Diagnostics Module
+ * Class:	EECS 398/399, Spring 2014
+ * 
+ * Team:	Brian Hayt, Matt McKee, Ken Akiki, Casey Stoessl, Rachid Lamouri
+ */
+
 package com.bbdt.bluetoothbicyclediagnostics.dialogs;
 
 import android.app.AlertDialog;
@@ -11,6 +18,9 @@ import android.widget.TextView;
 import com.bbdt.bluetoothbicyclediagnostics.R;
 import com.bbdt.bluetoothbicyclediagnostics.serializable.Account;
 
+/**
+ * For the BBDM application, this dialog creates a view the edit a previously created dialog
+ */
 public class EditAccountDialog extends DialogFragment {	
 	private Account account;
 	
